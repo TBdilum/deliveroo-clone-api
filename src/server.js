@@ -6,8 +6,9 @@ const dishesRoutes = require("./routes/dish.routes");
 const app = express();
 const port = 3000;
 
-app.use(restaurantRoutes);
-app.use(dishesRoutes);
+app.use("/restaurants", restaurantRoutes);
+app.use("/dishes", dishesRoutes);
+
 app.use(commonRoutes);
 
 app.listen(port, () => {

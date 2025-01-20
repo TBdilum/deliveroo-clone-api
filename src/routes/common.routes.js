@@ -2,10 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  const queryParams = req.query;
   res.status(200).json({
     message: "Hello world!",
-    queryParams: queryParams,
+    pathParams: req.params,
   });
 });
 

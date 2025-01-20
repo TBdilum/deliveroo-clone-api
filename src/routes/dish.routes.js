@@ -1,62 +1,49 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/dishes", (req, res) => {
-  const queryParams = req.query;
+router.get("/", (req, res) => {
   res.status(200).json({
-    message: "These are all the Dishes!",
-    queryParams: queryParams,
+    message: "get all dishes",
+    queryParams: req.query,
   });
 });
 
-router.post("/dishes", (req, res) => {
-  const queryParams = req.query;
+router.post("/", (req, res) => {
   res.status(201).json({
-    message: "Create a new Dish.",
-    queryParams: queryParams,
+    message: "create new dish",
+    queryParams: req.query,
   });
 });
 
-router.put("/dishes/:id", (req, res) => {
-  const queryParams = req.query;
+router.put("/:id", (req, res) => {
   res.status(200).json({
     params: req.params,
-    message: "Update Dish.",
-    queryParams: queryParams,
+    message: "update dish completely",
+    queryParams: req.query,
   });
 });
 
-router.get("/dishes/:id", (req, res) => {
-  const queryParams = req.query;
+router.get("/:id", (req, res) => {
   res.status(200).json({
     params: req.params,
-    message: "Get a Dish.",
-    queryParams: queryParams,
+    message: "get a single dish",
+    queryParams: req.query,
   });
 });
 
-router.patch("/dishes/:id", (req, res) => {
-  const queryParams = req.query;
+router.patch("/:id", (req, res) => {
   res.status(200).json({
     params: req.params,
-    message: "Patch a Dish.",
-    queryParams: queryParams,
+    message: "update a dish partially",
+    queryParams: req.query,
   });
 });
 
-router.delete("/dishes/:id", (req, res) => {
-  const queryParams = req.query;
+router.delete("/:id", (req, res) => {
   res.status(200).json({
     params: req.params,
-    message: "Delete a Dish.",
-    queryParams: queryParams,
-  });
-});
-
-router.all("*", (req, res) => {
-  res.status(404).json({
-    params: req.params,
-    message: "Route Not Found!",
+    message: "delete dish",
+    queryParams: req.query,
   });
 });
 
