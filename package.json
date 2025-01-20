@@ -4,7 +4,9 @@
   "description": "Node.js backend API for deliveroo clone",
   "main": "src/server.js",
   "scripts": {
-    "test": "node src/routes/common.routes.js"
+    "test": "node src/routes/common.routes.js",
+    "test1": "node src/routes/restaurant.routes.js",
+    "test2": "node src/routes/dish.routes.js"
   },
   "author": "TBDilum",
   "license": "ISC",
