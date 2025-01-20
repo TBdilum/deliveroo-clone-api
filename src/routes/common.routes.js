@@ -1,12 +1,18 @@
 const express = require("express");
-const app = express();
-const port = 3000;
+const router = express.Router();
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+router.get("/", (req, res) => {
+  const queryParams = req.query;
+  res.status(200).json({
+    message: "Hello world!",
+    queryParams: queryParams,
+  });
 });
 
-
-app.listen(port, () => {
-  console.log(`Deliveroo-api listening on port ${port}`);
+router.all("*", (req, res) => {
+  res.status(404).json({
+    message: "Route Not Found!",
+  });
 });
+
+module.exports = router;

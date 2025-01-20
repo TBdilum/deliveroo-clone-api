@@ -1,31 +1,64 @@
 const express = require("express");
-const app = express();
-const port = 4000;
+const router = express.Router();
 
-app.get("/restaurants", (req, res) => {
-  res.send("These are all the restaurants!");
+router.get("/restaurants", (req, res) => {
+  const queryParams = req.query;
+  res.status(200).json({
+    message: "These are all the restaurants",
+    queryParams: queryParams,
+  });
 });
 
-app.post("/restaurants", (req, res) => {
-  res.send("Create a new restaurant.");
+router.post("/restaurant/:id", (req, res) => {
+  const queryParams = req.querys;
+  res.status(201).json({
+    pathParams: req.params,
+    message: `Create a restaurant`,
+    queryParams: queryParams,
+  });
 });
 
-app.put("/restaurants/1", (req, res) => {
-  res.send("Update a restaurant.");
+router.put("/restaurant/:id", (req, res) => {
+  const queryParams = req.query;
+  res.status(200).json({
+    pathParams: req.params,
+    message: "Update a restaurant.",
+    queryParams: queryParams,
+  });
 });
 
-app.get("/restaurants/1", (req, res) => {
-  res.send("Get restaurant 1.");
+router.get("/restaurant/:id", (req, res) => {
+  const queryParams = req.query;
+  res.status(200).json({
+    pathParams: req.params,
+    message: "Get a restaurant.",
+    queryParams: queryParams,
+  });
 });
 
-app.patch("/restaurants/1", (req, res) => {
-  res.send("Patch restaurant 1.");
+router.patch("/restaurant/:id", (req, res) => {
+  const queryParams = req.query;
+  res.status(200).json({
+    pathParams: req.params,
+    message: "Patch a restaurant.",
+    queryParams: queryParams,
+  });
 });
 
-app.delete("/restaurants/1", (req, res) => {
-  res.send("Delete restaurant 1.");
+router.delete("/restaurant/:id", (req, res) => {
+  const queryParams = req.query;
+  res.status(200).json({
+    pathParams: req.params,
+    message: "Delete a restaurant",
+    queryParams: queryParams,
+  });
 });
 
-app.listen(port, () => {
-  console.log(`Deliveroo restaurants running on port ${port}`);
+router.all("*", (req, res) => {
+  res.status(404).json({
+    params: req.params,
+    message: "Route Not Found!",
+  });
 });
+
+module.exports = router;

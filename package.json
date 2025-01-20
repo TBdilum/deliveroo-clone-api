@@ -4,13 +4,18 @@
   "description": "Node.js backend API for deliveroo clone",
   "main": "src/server.js",
   "scripts": {
-    "test": "node src/routes/common.routes.js",
-    "test1": "node src/routes/restaurant.routes.js",
-    "test2": "node src/routes/dish.routes.js"
+    "dev": "nodemon src/server.js"
   },
   "author": "TBDilum",
   "license": "ISC",
   "dependencies": {
     "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "eslint": "^9.18.0",
+    "globals": "^15.14.0",
+    "nodemon": "^3.1.9",
+    "prettier": "3.4.2"
   }
 }
