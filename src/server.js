@@ -1,13 +1,15 @@
 const express = require("express");
 const commonRoutes = require("./routes/common.routes");
 const restaurantRoutes = require("./routes/restaurant.routes");
-const dishesRoutes = require("./routes/dish.routes");
+const dishRoutes = require("./routes/dish.routes");
+const categoryRoutes = require("./routes/category.routes");
 
 const app = express();
 const port = 3000;
 
 app.use("/restaurants", restaurantRoutes);
-app.use("/dishes", dishesRoutes);
+app.use("/dishes", dishRoutes);
+app.use("/categories", categoryRoutes);
 
 app.use(commonRoutes);
 
