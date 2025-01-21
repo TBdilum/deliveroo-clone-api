@@ -75,20 +75,42 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.patch("/:id", (req, res) => {
-  res.status(200).json({
-    params: req.params,
-    message: "update a restaurant partially",
-    queryParams: req.query,
-  });
+router.patch("/:id", async (req, res) => {
+  try {
+    const updatedFields = req.body;
+    const patchedRestaurant = await Restaurant.findByIdAndUpdate(
+      req.params.id,
+      updatedFields,
+      { new: true },
+    );
+    res.status(200).json({
+      message: "updated a restaurant partially",
+      data: patchedRestaurant,
+    });
+  } catch (error) {
+    console.log(error, "error");
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
 });
 
-router.delete("/:id", (req, res) => {
-  res.status(200).json({
-    params: req.params,
-    message: "delete restaurant",
-    queryParams: req.query,
-  });
+router.delete("/:id", async (req, res) => {
+  try {
+    const deletedRestaurant = await Restaurant.findByIdAndDelete(
+      req.params.id,
+    ).select("name");
+    console.log(`Deleted restaurant: ${deletedRestaurant.name}`);
+    res.status(200).json({
+      message: "Deleted",
+      data: deletedRestaurant,
+    });
+  } catch (error) {
+    console.log(error, "error");
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
 });
 
 module.exports = router;

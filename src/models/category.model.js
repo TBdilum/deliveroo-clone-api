@@ -5,6 +5,6 @@ const categorySchema = new mongoose.Schema({
   id: Number,
 });
 
-const Category = mongoose.model("Restaurant", categorySchema);
+const Category = mongoose.model("Category", categorySchema);
 
 module.exports = Category;

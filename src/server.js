@@ -7,7 +7,6 @@ const commonRoutes = require("./routes/common.routes");
 const restaurantRoutes = require("./routes/restaurant.routes");
 const dishRoutes = require("./routes/dish.routes");
 const categoryRoutes = require("./routes/category.routes");
-
 const app = express();
 const port = 3000;
 

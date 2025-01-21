@@ -9,6 +9,6 @@ const dishSchema = new mongoose.Schema({
   category: String,
 });
 
-const Dish = mongoose.model("Restaurant", dishSchema);
+const Dish = mongoose.model("Dish", dishSchema);
 
 module.exports = Dish;

@@ -1,50 +1,122 @@
 const express = require("express");
+const Dish = require("../models/dish.model.js");
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.status(200).json({
-    message: "get all dishes",
-    queryParams: req.query,
-  });
+router.get("/", async (req, res) => {
+  try {
+    const dishesArray = await Dish.find();
+    res.status(200).json({
+      message: "success",
+      data: dishesArray,
+    });
+  } catch (error) {
+    console.log(error, "error");
+
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
 });
 
-router.post("/", (req, res) => {
-  res.status(201).json({
-    message: "create new dish",
-    queryParams: req.query,
-  });
+router.post("/", async (req, res) => {
+  try {
+    const createdDish = await Dish.create({
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price,
+      calories: req.body.calories,
+      category: req.body.category,
+    });
+    res.status(201).json({
+      message: "successfully created",
+      data: createdDish,
+    });
+  } catch (error) {
+    console.log(error, "error");
+
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
 });
 
-router.put("/:id", (req, res) => {
-  res.status(200).json({
-    params: req.params,
-    message: "update dish completely",
-    queryParams: req.query,
-  });
+router.put("/:id", async (req, res) => {
+  try {
+    const updatedDish = await Dish.findByIdAndUpdate(
+      req.params.id,
+      {
+        name: req.body.name,
+        description: req.body.description,
+        price: req.body.price,
+        calories: req.body.calories,
+        category: req.body.category,
+      },
+      { new: true },
+    );
+    res.status(200).json({
+      message: "Updated Dish completely",
+      data: updatedDish,
+    });
+  } catch (error) {
+    console.log(error, "error");
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
 });
 
-router.get("/:id", (req, res) => {
-  res.status(200).json({
-    params: req.params,
-    message: "get a single dish",
-    queryParams: req.query,
-  });
+router.get("/:id", async (req, res) => {
+  try {
+    const foundDish = await Dish.findById(req.params.id);
+    res.status(200).json({
+      message: "success",
+      data: foundDish,
+    });
+  } catch (error) {
+    console.log(error, "error");
+
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
 });
 
-router.patch("/:id", (req, res) => {
-  res.status(200).json({
-    params: req.params,
-    message: "update a dish partially",
-    queryParams: req.query,
-  });
+router.patch("/:id", async (req, res) => {
+  try {
+    const updatedFields = req.body;
+    const patchedDish = await Dish.findByIdAndUpdate(
+      req.params.id,
+      updatedFields,
+      { new: true },
+    );
+    res.status(200).json({
+      message: "updated a Dish partially",
+      data: patchedDish,
+    });
+  } catch (error) {
+    console.log(error, "error");
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
 });
 
-router.delete("/:id", (req, res) => {
-  res.status(200).json({
-    params: req.params,
-    message: "delete dish",
-    queryParams: req.query,
-  });
+router.delete("/:id", async (req, res) => {
+  try {
+    const deletedDish = await Dish.findByIdAndDelete(req.params.id).select(
+      "name",
+    );
+    console.log(`Deleted Dish: ${deletedDish.name}`);
+    res.status(200).json({
+      message: "Deleted",
+      data: deletedDish,
+    });
+  } catch (error) {
+    console.log(error, "error");
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
 });
 
 module.exports = router;
