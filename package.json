@@ -9,12 +9,14 @@
   "author": "TBDilum",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.4.7",
     "express": "^4.21.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",
     "eslint": "^9.18.0",
     "globals": "^15.14.0",
+    "mongoose": "^8.9.5",
     "prettier": "3.4.2"
   }
 }
