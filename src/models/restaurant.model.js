@@ -13,10 +13,10 @@ const restaurantSchema = new mongoose.Schema({
       ref: "Dish",
     },
   ],
-  Categories: [
+  categories: [
     {
-      name: String,
-      belongingRestaurant: String,
+      type: mongoose.SchemaType.ObjectId,
+      ref: "Category",
     },
   ],
 });

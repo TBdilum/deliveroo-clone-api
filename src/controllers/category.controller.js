@@ -20,8 +20,9 @@ const getAllCategories = async (req, res) => {
 const createNewCategory = async (req, res) => {
   try {
     const createdCategory = await categoryService.createNewCategory(
+      req.params.id,
       req.body.name,
-      req.body.description,
+      req.body.restaurant,
     );
     res.status(201).json({
       message: "successfully created",

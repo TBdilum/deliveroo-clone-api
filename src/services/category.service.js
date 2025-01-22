@@ -1,14 +1,25 @@
 const Category = require("../models/category.model");
 
-const createNewCategory = async (name, description) => {
-  return Category.create({
+const createNewCategory = async (name, restaurant, categoryId) => {
+  const newCategory = await Category.create({
     name: name,
-    description: description,
+    restaurant: restaurant,
   });
+
+  const updatedCategory = await updatedCategory
+    .findByIdAndUpdate(
+      categoryId,
+      {
+        $push: { categories: newCategory._id },
+      },
+      { new: true },
+    )
+    .populate("categories");
+
+  return { newCategory, updatedCategory };
 };
 
 const findAllCategories = async () => {
-  8;
   return Category.find();
 };
 

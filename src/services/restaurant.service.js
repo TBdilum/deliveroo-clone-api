@@ -8,8 +8,7 @@ const createNew = async (name, description) => {
 };
 
 const findAll = async () => {
-  8;
-  return Restaurant.find();
+  return Restaurant.find().populate("dishes", "categories");
 };
 
 const fullUpdateRestaurant = async (id, name, description) => {
