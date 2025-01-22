@@ -1,12 +1,12 @@
-const restaurantService = require("../services/restaurant.service");
+const categoryService = require("../services/category.service");
 
-const getAllRestaurants = async (req, res) => {
+const getAllCategories = async (req, res) => {
   try {
-    const restaurantsArray = await restaurantService.findAll();
+    const CategoriesArray = await categoryService.findAllCategories();
 
     res.status(200).json({
       message: "success",
-      data: restaurantsArray,
+      data: CategoriesArray,
     });
   } catch (error) {
     console.log(error, "error");
@@ -17,15 +17,15 @@ const getAllRestaurants = async (req, res) => {
   }
 };
 
-const createNewRestaurant = async (req, res) => {
+const createNewCategory = async (req, res) => {
   try {
-    const createdRestaurant = await restaurantService.createNew(
+    const createdCategory = await categoryService.createNewCategory(
       req.body.name,
       req.body.description,
     );
     res.status(201).json({
       message: "successfully created",
-      data: createdRestaurant,
+      data: createdCategory,
     });
   } catch (error) {
     console.log(error, "error");
@@ -36,14 +36,12 @@ const createNewRestaurant = async (req, res) => {
   }
 };
 
-const getARestaurant = async (req, res) => {
+const getCategory = async (req, res) => {
   try {
-    const foundRestaurant = await restaurantService.getRestaurant(
-      req.params.id,
-    );
+    const foundCategory = await categoryService.getCategory(req.params.id);
     res.status(200).json({
       message: "success",
-      data: foundRestaurant,
+      data: foundCategory,
     });
   } catch (error) {
     console.log(error, "error");
@@ -54,16 +52,16 @@ const getARestaurant = async (req, res) => {
   }
 };
 
-const updateARestaurantFully = async (req, res) => {
+const updateCategoryFully = async (req, res) => {
   try {
-    const updatedRestaurant = await restaurantService.fullUpdateRestaurant(
+    const updatedCategory = await categoryService.fullUpdateCategory(
       req.params.id,
       req.body.name,
       req.body.description,
     );
     res.status(200).json({
-      message: "Updated restaurant completely",
-      data: updatedRestaurant,
+      message: "Updated Category completely",
+      data: updatedCategory,
     });
   } catch (error) {
     console.log(error, "error");
@@ -73,16 +71,16 @@ const updateARestaurantFully = async (req, res) => {
   }
 };
 
-const updateARestaurantPartially = async (req, res) => {
+const updateCategoryPartially = async (req, res) => {
   try {
-    const patchedRestaurant = await restaurantService.partialUpdateRestaurant(
+    const patchedCategory = await categoryService.partialUpdateCategory(
       req.params.id,
       req.body.name,
       req.body.description,
     );
     res.status(200).json({
-      message: "updated a restaurant partially",
-      data: patchedRestaurant,
+      message: "updated a Category partially",
+      data: patchedCategory,
     });
   } catch (error) {
     console.log(error, "error");
@@ -92,14 +90,12 @@ const updateARestaurantPartially = async (req, res) => {
   }
 };
 
-const deleteARestaurant = async (req, res) => {
+const deleteCategory = async (req, res) => {
   try {
-    const deletedRestaurant = await restaurantService.deleteRestaurant(
-      req.params.id,
-    );
+    const deletedCategory = await categoryService.deleteCategory(req.params.id);
     res.status(200).json({
       message: "Deleted",
-      data: deletedRestaurant,
+      data: deletedCategory,
     });
   } catch (error) {
     console.log(error, "error");
@@ -110,10 +106,10 @@ const deleteARestaurant = async (req, res) => {
 };
 
 module.exports = {
-  getAllRestaurants,
-  createNewRestaurant,
-  getARestaurant,
-  updateARestaurantPartially,
-  updateARestaurantFully,
-  deleteARestaurant,
+  getAllCategories,
+  createNewCategory,
+  getCategory,
+  updateCategoryPartially,
+  updateCategoryFully,
+  deleteCategory,
 };

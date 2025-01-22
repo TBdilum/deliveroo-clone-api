@@ -1,13 +1,14 @@
 const express = require("express");
-const Restaurant = require("../models/restaurant.model");
+const router = express.Router();
+
 const {
   getAllRestaurants,
   createNewRestaurant,
   updateARestaurantFully,
   getARestaurant,
   updateARestaurantPartially,
+  deleteARestaurant,
 } = require("../controllers/restaurant.controller");
-const router = express.Router();
 
 router.get("/", getAllRestaurants);
 
@@ -19,22 +20,6 @@ router.get("/:id", getARestaurant);
 
 router.patch("/:id", updateARestaurantPartially);
 
-router.delete("/:id", async (req, res) => {
-  try {
-    const deletedRestaurant = await Restaurant.findByIdAndDelete(
-      req.params.id,
-    ).select("name");
-    console.log(`Deleted restaurant: ${deletedRestaurant.name}`);
-    res.status(200).json({
-      message: "Deleted",
-      data: deletedRestaurant,
-    });
-  } catch (error) {
-    console.log(error, "error");
-    res.status(500).json({
-      message: "Internal server error",
-    });
-  }
-});
+router.delete("/:id", deleteARestaurant);
 
 module.exports = router;

@@ -8,6 +8,7 @@ const createNew = async (name, description) => {
 };
 
 const findAll = async () => {
+  8;
   return Restaurant.find();
 };
 
@@ -27,8 +28,13 @@ const getRestaurant = async (id) => {
 };
 
 const partialUpdateRestaurant = async (id, name, description) => {
-  const updatedFields = (name, description);
-  return Restaurant.findByIdAndUpdate(id, updatedFields, { new: true });
+  return Restaurant.findByIdAndUpdate(id, { name, description }, { new: true });
+};
+
+const deleteRestaurant = async (id) => {
+  const deletedRestaurant = await Restaurant.findByIdAndDelete(id);
+  console.log(`Deleted restaurant: ${deletedRestaurant.name}`);
+  return deletedRestaurant;
 };
 
 module.exports = {
@@ -37,4 +43,5 @@ module.exports = {
   fullUpdateRestaurant,
   createNew,
   findAll,
+  deleteRestaurant,
 };

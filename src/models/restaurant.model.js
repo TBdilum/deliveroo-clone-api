@@ -7,6 +7,18 @@ const restaurantSchema = new mongoose.Schema({
   tags: String,
   openingAt: String,
   closingAt: String,
+  dishes: [
+    {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "Dish",
+    },
+  ],
+  Categories: [
+    {
+      name: String,
+      belongingRestaurant: String,
+    },
+  ],
 });
 
 const Restaurant = mongoose.model("Restaurant", restaurantSchema);
