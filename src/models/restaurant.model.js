@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const restaurantSchema = new mongoose.Schema({
   name: String,
   description: String,
-  id: Number,
   orgId: String,
   tags: String,
   openingAt: String,

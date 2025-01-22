@@ -7,6 +7,7 @@ const dishSchema = new mongoose.Schema({
   price: Number,
   calories: Number,
   category: String,
+  restaurant: String,
 });
 
 const Dish = mongoose.model("Dish", dishSchema);
