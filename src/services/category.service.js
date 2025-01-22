@@ -1,26 +1,25 @@
 const Category = require("../models/category.model");
+const Restaurant = require("../models/restaurant.model");
 
-const createNewCategory = async (name, restaurant, categoryId) => {
+const createNewCategory = async (name, restaurant, restaurantId) => {
   const newCategory = await Category.create({
     name: name,
     restaurant: restaurant,
   });
 
-  const updatedCategory = await updatedCategory
-    .findByIdAndUpdate(
-      categoryId,
-      {
-        $push: { categories: newCategory._id },
-      },
-      { new: true },
-    )
-    .populate("categories");
+  const updatedCategory = await Restaurant.findByIdAndUpdate(
+    restaurantId,
+    {
+      $push: { categories: newCategory._id },
+    },
+    { new: true },
+  ).populate("categories");
 
   return { newCategory, updatedCategory };
 };
 
 const findAllCategories = async () => {
-  return Category.find();
+  return Category.find().populate("Dish");
 };
 
 const fullUpdateCategory = async (id, name, description) => {

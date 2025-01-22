@@ -15,7 +15,7 @@ const restaurantSchema = new mongoose.Schema({
   ],
   categories: [
     {
-      type: mongoose.SchemaType.ObjectId,
+      type: mongoose.SchemaTypes.ObjectId,
       ref: "Category",
     },
   ],
