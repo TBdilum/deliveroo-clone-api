@@ -1,46 +1,34 @@
 const Restaurant = require("../models/restaurant.model");
 
-const createNew = async (name, description) => {
-  return Restaurant.create({
-    name: name,
-    description: description,
-  });
-};
-
 const findAll = async () => {
-  return Restaurant.find().populate("dishes", "categories");
+  return Restaurant.find();
 };
 
-const fullUpdateRestaurant = async (id, name, description) => {
-  return Restaurant.findByIdAndUpdate(
-    id,
-    {
-      name: name,
-      description: description,
-    },
-    { new: true },
-  );
+const createNew = async (data) => {
+  return Restaurant.save(data);
 };
 
-const getRestaurant = async (id) => {
-  return Restaurant.findById(id);
+const findById = async (data) => {
+  return Restaurant.find(data);
 };
 
-const partialUpdateRestaurant = async (id, name, description) => {
-  return Restaurant.findByIdAndUpdate(id, { name, description }, { new: true });
+const findByIdAndUpdate = async (id, data) => {
+  return Restaurant.findByIdAndUpdate(id, data, { new: true });
 };
 
-const deleteRestaurant = async (id) => {
-  const deletedRestaurant = await Restaurant.findByIdAndDelete(id);
-  console.log(`Deleted restaurant: ${deletedRestaurant.name}`);
-  return deletedRestaurant;
+const findAndUpdatePartially = async (id, data) => {
+  return Restaurant.findByIdAndUpdate(id, data);
+};
+
+const findByIdAndDelete = async (id) => {
+  return Restaurant.findByIdAndDelete(id, { new: true });
 };
 
 module.exports = {
-  getRestaurant,
-  partialUpdateRestaurant,
-  fullUpdateRestaurant,
+  findById,
   createNew,
   findAll,
-  deleteRestaurant,
+  findByIdAndUpdate,
+  findAndUpdatePartially,
+  findByIdAndDelete,
 };

@@ -1,57 +1,34 @@
 const Category = require("../models/category.model");
-const Restaurant = require("../models/restaurant.model");
 
-const createNewCategory = async (name, restaurant, restaurantId) => {
-  const newCategory = await Category.create({
-    name: name,
-    restaurant: restaurant,
-  });
-
-  const updatedCategory = await Restaurant.findByIdAndUpdate(
-    restaurantId,
-    {
-      $push: { categories: newCategory._id },
-    },
-    { new: true },
-  ).populate("categories");
-
-  return { newCategory, updatedCategory };
+const findAll = async (filters) => {
+  return Category.find(filters);
 };
 
-const findAllCategories = async () => {
-  return Category.find().populate("Dish");
+const createNew = async (data) => {
+  return Category.save(data);
 };
 
-const fullUpdateCategory = async (id, name, description) => {
-  return Category.findByIdAndUpdate(
-    id,
-    {
-      name: name,
-      description: description,
-    },
-    { new: true },
-  );
+const findById = async (data) => {
+  return Category.find(data);
 };
 
-const getCategory = async (id) => {
-  return Category.findById(id);
+const findByIdAndUpdate = async (id, data) => {
+  return Category.findByIdAndUpdate(id, data, { new: true });
 };
 
-const partialUpdateCategory = async (id, name, description) => {
-  return Category.findByIdAndUpdate(id, { name, description }, { new: true });
+const findAndUpdatePartially = async (id, data) => {
+  return Category.findByIdAndUpdate(id, data, { new: true });
 };
 
-const deleteCategory = async (id) => {
-  const deletedCategory = await Category.findByIdAndDelete(id);
-  console.log(`Deleted Category: ${deletedCategory.name}`);
-  return deletedCategory;
+const findByIdAndDelete = async (id) => {
+  return Category.findByIdAndDelete(id, { new: true });
 };
 
 module.exports = {
-  getCategory,
-  partialUpdateCategory,
-  fullUpdateCategory,
-  createNewCategory,
-  findAllCategories,
-  deleteCategory,
+  findById,
+  createNew,
+  findAll,
+  findByIdAndUpdate,
+  findAndUpdatePartially,
+  findByIdAndDelete,
 };

@@ -3,17 +3,10 @@ const mongoose = require("mongoose");
 const restaurantSchema = new mongoose.Schema({
   name: String,
   description: String,
-  orgId: String,
   tags: String,
   openingAt: String,
   closingAt: String,
-  dishes: [
-    {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: "Dish",
-    },
-  ],
-  categories: [
+  category: [
     {
       type: mongoose.SchemaTypes.ObjectId,
       ref: "Category",

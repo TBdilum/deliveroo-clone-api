@@ -1,65 +1,29 @@
 const Dish = require("../models/dish.model");
-const Restaurant = require("../models/restaurant.model");
 
-const createNewDish = async (
-  restaurantId,
-  name,
-  description,
-  calories,
-  price,
-) => {
-  const newDish = await Dish.create({
-    name: name,
-    description: description,
-    calories: calories,
-    price: price,
-  });
-
-  const updatedRestaurant = await Restaurant.findByIdAndUpdate(
-    restaurantId,
-    {
-      $push: { dishes: newDish._id },
-    },
-    { new: true },
-  ).populate("dishes");
-
-  return { newDish, updatedRestaurant };
+const findAll = async (filters) => {
+  return Dish.find(filters);
 };
 
-const findAllDishes = async () => {
-  return Dish.find();
+const createNew = async (data) => {
+  return await Dish.save(data);
 };
 
-const fullUpdateDish = async (id, name, description) => {
-  return Dish.findByIdAndUpdate(
-    id,
-    {
-      name: name,
-      description: description,
-    },
-    { new: true },
-  );
+const findById = async (data) => {
+  return Dish.find(data);
 };
 
-const getDish = async (id) => {
-  return Dish.findById(id);
+const findByIdAndUpdate = async (id, data) => {
+  return Dish.findByIdAndUpdate(id, data, { new: true });
 };
 
-const partialUpdateDish = async (id, name, description) => {
-  return Dish.findByIdAndUpdate(id, { name, description }, { new: true });
-};
-
-const deleteDish = async (id) => {
-  const deletedDish = await Dish.findByIdAndDelete(id);
-  console.log(`Deleted Dish: ${deletedDish.name}`);
-  return deletedDish;
+const findByIdAndDelete = async (id) => {
+  return Dish.findByIdAndDelete(id, { new: true });
 };
 
 module.exports = {
-  getDish,
-  partialUpdateDish,
-  fullUpdateDish,
-  createNewDish,
-  findAllDishes,
-  deleteDish,
+  findById,
+  createNew,
+  findAll,
+  findByIdAndUpdate,
+  findByIdAndDelete,
 };

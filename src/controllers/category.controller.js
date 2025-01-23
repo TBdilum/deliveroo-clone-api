@@ -1,12 +1,29 @@
 const categoryService = require("../services/category.service");
+const restaurantService = require("../services/restaurant.service");
 
 const getAllCategories = async (req, res) => {
   try {
-    const CategoriesArray = await categoryService.findAllCategories();
+    const filters = {};
+
+    if (req.query.restaurant) {
+      filters.restaurant = req.query.restaurant;
+    }
+
+    if (req.query.dishes) {
+      filters.dishes = req.query.dishes;
+    }
+    const categoriesArray = await categoryService.findAll(filters);
+
+    if (!categoriesArray) {
+      res.json({
+        message: "No Category found",
+      });
+      return;
+    }
 
     res.status(200).json({
-      message: "success",
-      data: CategoriesArray,
+      message: "OK",
+      data: categoriesArray,
     });
   } catch (error) {
     console.log(error, "error");
@@ -19,14 +36,24 @@ const getAllCategories = async (req, res) => {
 
 const createNewCategory = async (req, res) => {
   try {
-    const createdCategory = await categoryService.createNewCategory(
-      req.body.name,
-      req.body.restaurant,
-      req.params.id,
+    const foundRestaurant = await restaurantService.findById(
+      req.query.restaurant,
     );
+
+    if (!foundRestaurant) {
+      res.status(404).json({
+        message: "Restaurant Not Found",
+      });
+
+      return;
+    }
+
+    const createdCategory = await categoryService.createNew(req.body);
+
     res.status(201).json({
       message: "successfully created",
       data: createdCategory,
+      restaurant: foundRestaurant.restaurant,
     });
   } catch (error) {
     console.log(error, "error");
@@ -39,9 +66,20 @@ const createNewCategory = async (req, res) => {
 
 const getCategory = async (req, res) => {
   try {
-    const foundCategory = await categoryService.getCategory(req.params.id);
+    const foundCategory = await categoryService.findById({
+      ...req.params,
+      ...req.body,
+      ...req.query,
+    });
+
+    if (!foundCategory) {
+      res.json({
+        message: "Category not found!",
+      });
+    }
+
     res.status(200).json({
-      message: "success",
+      message: "OK",
       data: foundCategory,
     });
   } catch (error) {
@@ -57,9 +95,15 @@ const updateCategoryFully = async (req, res) => {
   try {
     const updatedCategory = await categoryService.fullUpdateCategory(
       req.params.id,
-      req.body.name,
-      req.body.description,
+      { ...req.body },
     );
+
+    if (!updatedCategory) {
+      res.json({
+        message: "Category not found!",
+      });
+      return;
+    }
     res.status(200).json({
       message: "Updated Category completely",
       data: updatedCategory,
@@ -74,7 +118,7 @@ const updateCategoryFully = async (req, res) => {
 
 const updateCategoryPartially = async (req, res) => {
   try {
-    const patchedCategory = await categoryService.partialUpdateCategory(
+    const patchedCategory = await categoryService.findAndUpdatePartially(
       req.params.id,
       req.body.name,
       req.body.description,

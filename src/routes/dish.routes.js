@@ -5,19 +5,18 @@ const {
   getADish,
   deleteDish,
   updateDishPartially,
+  updateDishFully,
 } = require("../controllers/dish.controller.js");
-const {
-  updateARestaurantFully,
-} = require("../controllers/restaurant.controller.js");
+
 const router = express.Router();
 
 router.get("/", getAllDishes);
 
-router.post("/:id", createNewDish);
+router.post("/", createNewDish);
 
 router.put("/:id", getADish);
 
-router.get("/:id", updateARestaurantFully);
+router.get("/:id", updateDishFully);
 
 router.patch("/:id", updateDishPartially);
 

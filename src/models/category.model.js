@@ -6,10 +6,6 @@ const categorySchema = new mongoose.Schema({
     type: mongoose.SchemaTypes.ObjectId,
     ref: "Restaurant",
   },
-  dishes: {
-    type: mongoose.SchemaTypes.ObjectId,
-    ref: "Dish",
-  },
 });
 
 const Category = mongoose.model("Category", categorySchema);

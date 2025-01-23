@@ -1,11 +1,22 @@
 const dishService = require("../services/dish.service");
+const categoryService = require("../services/category.service");
 
 const getAllDishes = async (req, res) => {
   try {
-    const dishesArray = await dishService.findAllDishes();
+    const filters = {};
+
+    if (req.query.restaurant) {
+      filters.restaurant = req.query.restaurant;
+    }
+
+    if (req.query.category) {
+      filters.category = req.query.category;
+    }
+
+    const dishesArray = await dishService.findAll(filters);
 
     res.status(200).json({
-      message: "success",
+      message: "OK",
       data: dishesArray,
     });
   } catch (error) {
@@ -19,15 +30,24 @@ const getAllDishes = async (req, res) => {
 
 const createNewDish = async (req, res) => {
   try {
-    const createdDish = await dishService.createNewDish(
-      req.params.id,
-      req.body.name,
-      req.body.description,
-      req.body.calories,
-      req.body.price,
-    );
+    const foundCategory = await categoryService.findById(req.query.category);
+
+    if (!foundCategory) {
+      res.status(404).json({
+        message: "Category Not Found",
+      });
+
+      return;
+    }
+
+    const createdDish = await dishService.createNew({
+      ...req.body,
+      category: foundCategory.name,
+      restaurant: foundCategory.restaurant,
+    });
+
     res.status(201).json({
-      message: "successfully created",
+      message: "Dish Created",
       data: createdDish,
     });
   } catch (error) {
@@ -41,9 +61,18 @@ const createNewDish = async (req, res) => {
 
 const getADish = async (req, res) => {
   try {
-    const foundDish = await dishService.getDish(req.params.id);
+    const foundDish = await dishService
+      .getDish({ ...req.params, ...req.body, ...req.query })
+      .populate("category", "name");
+
+    if (!foundDish) {
+      res.json({
+        message: "Dish not Found!",
+      });
+      return;
+    }
     res.status(200).json({
-      message: "success",
+      message: "Dish Found!",
       data: foundDish,
     });
   } catch (error) {
@@ -58,10 +87,15 @@ const getADish = async (req, res) => {
 const updateDishFully = async (req, res) => {
   try {
     const updatedDish = await dishService.fullUpdateDish(
-      req.params.id,
-      req.body.name,
-      req.body.description,
+      { ...req.params.id, ...req.query.id },
+      { ...req.query, ...req.body },
     );
+
+    if (!updatedDish) {
+      res.json({
+        message: "Dish not found!",
+      });
+    }
     res.status(200).json({
       message: "Updated Dish completely",
       data: updatedDish,
