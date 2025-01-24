@@ -9,7 +9,10 @@ const getAllCategories = async (req, res) => {
       filters.restaurant = req.query.restaurant;
     }
 
-    const categoriesArray = await categoryService.findAll(filters);
+    const categoriesArray = await categoryService.findAll(
+      filters,
+      req.query.populate,
+    );
 
     res.status(200).json({
       message: "OK",

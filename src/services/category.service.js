@@ -1,6 +1,9 @@
 const Category = require("../models/category.model");
 
-const findAll = async (filters) => {
+const findAll = async (filters, ifPopulate) => {
+  if (ifPopulate) {
+    return Category.find(filters).populate("dishes");
+  }
   return Category.find(filters);
 };
 
