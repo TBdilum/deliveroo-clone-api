@@ -5,18 +5,14 @@ const dishSchema = new mongoose.Schema({
   description: String,
   calories: Number,
   price: Number,
-  category: [
-    {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: "Category",
-    },
-  ],
-  restaurant: [
-    {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: "Restaurant",
-    },
-  ],
+  category: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "Category",
+  },
+  restaurant: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "Restaurant",
+  },
 });
 
 const Dish = mongoose.model("Dish", dishSchema);

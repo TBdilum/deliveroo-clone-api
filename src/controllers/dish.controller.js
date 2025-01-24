@@ -30,7 +30,7 @@ const getAllDishes = async (req, res) => {
 
 const createNewDish = async (req, res) => {
   try {
-    const foundCategory = await categoryService.findById(req.query.category);
+    const foundCategory = await categoryService.findById(req.body.category);
 
     if (!foundCategory) {
       res.status(404).json({
@@ -42,12 +42,11 @@ const createNewDish = async (req, res) => {
 
     const createdDish = await dishService.createNew({
       ...req.body,
-      category: foundCategory.name,
       restaurant: foundCategory.restaurant,
     });
 
     res.status(201).json({
-      message: "Dish Created",
+      message: "Created",
       data: createdDish,
     });
   } catch (error) {
@@ -61,18 +60,17 @@ const createNewDish = async (req, res) => {
 
 const getADish = async (req, res) => {
   try {
-    const foundDish = await dishService
-      .getDish({ ...req.params, ...req.body, ...req.query })
-      .populate("category", "name");
+    const foundDish = await dishService.findById(req.params.id);
 
     if (!foundDish) {
-      res.json({
-        message: "Dish not Found!",
+      res.status(404).json({
+        message: "Dish not Found",
       });
       return;
     }
+
     res.status(200).json({
-      message: "Dish Found!",
+      message: "OK",
       data: foundDish,
     });
   } catch (error) {
@@ -86,58 +84,106 @@ const getADish = async (req, res) => {
 
 const updateDishFully = async (req, res) => {
   try {
-    const updatedDish = await dishService.fullUpdateDish(
-      { ...req.params.id, ...req.query.id },
-      { ...req.query, ...req.body },
-    );
+    const foundCategory = await categoryService.findById(req.body.category);
+
+    if (!foundCategory) {
+      res.status(404).json({
+        message: "Category Not Found",
+      });
+
+      return;
+    }
+
+    const updatedDish = await dishService.findByIdAndUpdate(req.params.id, {
+      ...req.body,
+      restaurant: foundCategory.restaurant,
+    });
 
     if (!updatedDish) {
-      res.json({
-        message: "Dish not found!",
+      res.status(404).json({
+        message: "Dish Not Found",
       });
+
+      return;
     }
+
     res.status(200).json({
-      message: "Updated Dish completely",
+      message: "OK",
       data: updatedDish,
     });
   } catch (error) {
     console.log(error, "error");
     res.status(500).json({
-      message: "Internal server error",
+      message: "Internal Server Error",
     });
   }
 };
 
 const updateDishPartially = async (req, res) => {
   try {
-    const patchedDish = await dishService.partialUpdateDish(
+    let foundCategory;
+    if (req.body.category) {
+      foundCategory = await categoryService.findById(req.body.category);
+
+      if (!foundCategory) {
+        res.status(404).json({
+          message: "Category Not Found",
+        });
+
+        return;
+      }
+    }
+
+    const patchedDish = await dishService.findAndUpdatePartially(
       req.params.id,
-      req.body.name,
-      req.body.description,
+      {
+        ...req.body,
+        ...(foundCategory
+          ? {
+              restaurant: foundCategory.restaurant,
+            }
+          : {}),
+      },
     );
+
+    if (!patchedDish) {
+      res.status(404).json({
+        message: "Dish Not Found",
+      });
+      return;
+    }
+
     res.status(200).json({
-      message: "updated a Dish partially",
+      message: "OK",
       data: patchedDish,
     });
   } catch (error) {
     console.log(error, "error");
     res.status(500).json({
-      message: "Internal server error",
+      message: "Internal Server Error",
     });
   }
 };
 
 const deleteDish = async (req, res) => {
   try {
-    const deletedDish = await dishService.deleteDish(req.params.id);
+    const deletedDish = await dishService.findByIdAndDelete(req.params.id);
+
+    if (!deletedDish) {
+      res.status(404).json({
+        message: "Dish Not Found",
+      });
+      return;
+    }
+
     res.status(200).json({
-      message: "Deleted",
+      message: "OK",
       data: deletedDish,
     });
   } catch (error) {
     console.log(error, "error");
     res.status(500).json({
-      message: "Internal server error",
+      message: "Internal Server Error",
     });
   }
 };

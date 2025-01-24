@@ -5,14 +5,18 @@ const findAll = async (filters) => {
 };
 
 const createNew = async (data) => {
-  return await Dish.save(data);
+  return await Dish.create(data);
 };
 
-const findById = async (data) => {
-  return Dish.find(data);
+const findById = async (id) => {
+  return Dish.findById(id);
 };
 
 const findByIdAndUpdate = async (id, data) => {
+  return Dish.findByIdAndUpdate(id, data, { new: true });
+};
+
+const findAndUpdatePartially = async (id, data) => {
   return Dish.findByIdAndUpdate(id, data, { new: true });
 };
 
@@ -25,5 +29,6 @@ module.exports = {
   createNew,
   findAll,
   findByIdAndUpdate,
+  findAndUpdatePartially,
   findByIdAndDelete,
 };

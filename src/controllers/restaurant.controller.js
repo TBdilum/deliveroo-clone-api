@@ -2,19 +2,7 @@ const restaurantService = require("../services/restaurant.service");
 
 const getAllRestaurants = async (req, res) => {
   try {
-    const filters = {};
-
-    if (req.query.category) {
-      filters.category = req.query.category;
-    }
-    const restaurantsArray = await restaurantService.findAll(filters);
-
-    if (!restaurantsArray) {
-      res.json({
-        message: "No Restaurant found",
-      });
-      return;
-    }
+    const restaurantsArray = await restaurantService.findAll();
 
     res.status(200).json({
       message: "OK",
@@ -32,6 +20,7 @@ const getAllRestaurants = async (req, res) => {
 const createNewRestaurant = async (req, res) => {
   try {
     const createdRestaurant = await restaurantService.createNew(req.body);
+
     res.status(201).json({
       message: "Created",
       data: createdRestaurant,
@@ -47,11 +36,7 @@ const createNewRestaurant = async (req, res) => {
 
 const getARestaurant = async (req, res) => {
   try {
-    const foundRestaurant = await restaurantService.findById({
-      ...req.params,
-      ...req.body,
-      ...req.query,
-    });
+    const foundRestaurant = await restaurantService.findById(req.params.id);
 
     if (!foundRestaurant) {
       res.status(404).json({
@@ -77,8 +62,8 @@ const getARestaurant = async (req, res) => {
 const updateARestaurantFully = async (req, res) => {
   try {
     const updatedRestaurant = await restaurantService.findByIdAndUpdate(
-      { ...req.params.id, ...req.query.id },
-      { ...req.query, ...req.body },
+      req.params.id,
+      req.body,
     );
 
     if (!updatedRestaurant) {
@@ -96,18 +81,17 @@ const updateARestaurantFully = async (req, res) => {
   } catch (error) {
     console.log(error, "error");
     res.status(500).json({
-      message: "Internal server error",
+      message: "Internal Server Error",
     });
   }
 };
 
 const updateARestaurantPartially = async (req, res) => {
   try {
-    const updatedRestaurant =
-      await restaurantService.findByIdAndUpdatePartially(
-        req.params.id,
-        req.body,
-      );
+    const updatedRestaurant = await restaurantService.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+    );
 
     if (!updatedRestaurant) {
       res.status(404).json({
@@ -121,10 +105,11 @@ const updateARestaurantPartially = async (req, res) => {
       message: "OK",
       data: updatedRestaurant,
     });
+    return;
   } catch (error) {
     console.log(error, "error");
     res.status(500).json({
-      message: "Internal server error",
+      message: "Internal Server Error",
     });
   }
 };
@@ -133,7 +118,6 @@ const deleteARestaurant = async (req, res) => {
   try {
     const deletedRestaurant = await restaurantService.findByIdAndDelete(
       req.params.id,
-      req.body,
     );
 
     if (!deletedRestaurant) {
@@ -148,10 +132,11 @@ const deleteARestaurant = async (req, res) => {
       message: "OK",
       data: deletedRestaurant,
     });
+    return;
   } catch (error) {
     console.log(error, "error");
     res.status(500).json({
-      message: "Internal server error",
+      message: "Internal Server Error",
     });
   }
 };

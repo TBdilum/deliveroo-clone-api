@@ -14,9 +14,9 @@ router.get("/", getAllDishes);
 
 router.post("/", createNewDish);
 
-router.put("/:id", getADish);
+router.put("/:id", updateDishFully);
 
-router.get("/:id", updateDishFully);
+router.get("/:id", getADish);
 
 router.patch("/:id", updateDishPartially);
 

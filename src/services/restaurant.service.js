@@ -5,19 +5,15 @@ const findAll = async () => {
 };
 
 const createNew = async (data) => {
-  return Restaurant.save(data);
+  return Restaurant.create(data);
 };
 
-const findById = async (data) => {
-  return Restaurant.find(data);
+const findById = async (id) => {
+  return Restaurant.findById(id);
 };
 
 const findByIdAndUpdate = async (id, data) => {
   return Restaurant.findByIdAndUpdate(id, data, { new: true });
-};
-
-const findAndUpdatePartially = async (id, data) => {
-  return Restaurant.findByIdAndUpdate(id, data);
 };
 
 const findByIdAndDelete = async (id) => {
@@ -29,6 +25,5 @@ module.exports = {
   createNew,
   findAll,
   findByIdAndUpdate,
-  findAndUpdatePartially,
   findByIdAndDelete,
 };

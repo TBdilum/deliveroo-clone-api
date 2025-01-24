@@ -9,17 +9,7 @@ const getAllCategories = async (req, res) => {
       filters.restaurant = req.query.restaurant;
     }
 
-    if (req.query.dishes) {
-      filters.dishes = req.query.dishes;
-    }
     const categoriesArray = await categoryService.findAll(filters);
-
-    if (!categoriesArray) {
-      res.json({
-        message: "No Category found",
-      });
-      return;
-    }
 
     res.status(200).json({
       message: "OK",
@@ -37,7 +27,7 @@ const getAllCategories = async (req, res) => {
 const createNewCategory = async (req, res) => {
   try {
     const foundRestaurant = await restaurantService.findById(
-      req.query.restaurant,
+      req.body.restaurant,
     );
 
     if (!foundRestaurant) {
@@ -51,7 +41,7 @@ const createNewCategory = async (req, res) => {
     const createdCategory = await categoryService.createNew(req.body);
 
     res.status(201).json({
-      message: "successfully created",
+      message: "Created",
       data: createdCategory,
       restaurant: foundRestaurant.restaurant,
     });
@@ -66,16 +56,14 @@ const createNewCategory = async (req, res) => {
 
 const getCategory = async (req, res) => {
   try {
-    const foundCategory = await categoryService.findById({
-      ...req.params,
-      ...req.body,
-      ...req.query,
-    });
+    const foundCategory = await categoryService.findById(req.params.id);
 
     if (!foundCategory) {
-      res.json({
-        message: "Category not found!",
+      res.status(404).json({
+        message: "Category Not Found",
       });
+
+      return;
     }
 
     res.status(200).json({
@@ -93,55 +81,101 @@ const getCategory = async (req, res) => {
 
 const updateCategoryFully = async (req, res) => {
   try {
-    const updatedCategory = await categoryService.fullUpdateCategory(
+    const foundRestaurant = await restaurantService.findById(
+      req.body.restaurant,
+    );
+
+    if (!foundRestaurant) {
+      res.status(404).json({
+        message: "Restaurant Not Found",
+      });
+
+      return;
+    }
+
+    const updatedCategory = await categoryService.findByIdAndUpdate(
       req.params.id,
-      { ...req.body },
+      req.body,
     );
 
     if (!updatedCategory) {
-      res.json({
-        message: "Category not found!",
+      res.status(404).json({
+        message: "Category Not Found",
       });
+
       return;
     }
     res.status(200).json({
-      message: "Updated Category completely",
+      message: "OK",
       data: updatedCategory,
     });
   } catch (error) {
     console.log(error, "error");
     res.status(500).json({
-      message: "Internal server error",
+      message: "Internal Server Error",
     });
   }
 };
 
 const updateCategoryPartially = async (req, res) => {
   try {
+    if (req.body.restaurant) {
+      const foundRestaurant = await restaurantService.findById(
+        req.body.restaurant,
+      );
+
+      if (!foundRestaurant) {
+        res.status(404).json({
+          message: "Restaurant Not Found",
+        });
+
+        return;
+      }
+    }
+
     const patchedCategory = await categoryService.findAndUpdatePartially(
       req.params.id,
-      req.body.name,
-      req.body.description,
+      req.body,
     );
+
+    if (!patchedCategory) {
+      res.status(404).json({
+        message: "Category Not Found",
+      });
+      return;
+    }
+
     res.status(200).json({
-      message: "updated a Category partially",
+      message: "OK",
       data: patchedCategory,
     });
   } catch (error) {
     console.log(error, "error");
     res.status(500).json({
-      message: "Internal server error",
+      message: "Internal Server Error",
     });
   }
 };
 
 const deleteCategory = async (req, res) => {
   try {
-    const deletedCategory = await categoryService.deleteCategory(req.params.id);
+    const deletedCategory = await categoryService.findByIdAndDelete(
+      req.params.id,
+    );
+
+    if (!deletedCategory) {
+      res.status(404).json({
+        message: "Category Not Found",
+      });
+
+      return;
+    }
+
     res.status(200).json({
-      message: "Deleted",
+      message: "OK",
       data: deletedCategory,
     });
+    return;
   } catch (error) {
     console.log(error, "error");
     res.status(500).json({

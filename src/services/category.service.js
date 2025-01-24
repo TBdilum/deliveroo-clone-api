@@ -5,11 +5,11 @@ const findAll = async (filters) => {
 };
 
 const createNew = async (data) => {
-  return Category.save(data);
+  return Category.create(data);
 };
 
-const findById = async (data) => {
-  return Category.find(data);
+const findById = async (id) => {
+  return Category.findById(id);
 };
 
 const findByIdAndUpdate = async (id, data) => {
