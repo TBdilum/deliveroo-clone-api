@@ -1,6 +1,9 @@
 const Dish = require("../models/dish.model");
 
-const findAll = async (filters) => {
+const findAll = async (filters, ifPopulate) => {
+  if (ifPopulate) {
+    return Dish.find(filters).populate("category restaurant", "name");
+  }
   return Dish.find(filters);
 };
 

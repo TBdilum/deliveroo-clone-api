@@ -13,7 +13,7 @@ const getAllDishes = async (req, res) => {
       filters.category = req.query.category;
     }
 
-    const dishesArray = await dishService.findAll(filters);
+    const dishesArray = await dishService.findAll(filters, req.query.populate);
 
     res.status(200).json({
       message: "OK",

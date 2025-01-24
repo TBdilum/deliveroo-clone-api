@@ -8,6 +8,14 @@ const categorySchema = new mongoose.Schema({
   },
 });
 
+categorySchema.virtual("dishes", {
+  ref: "Dish",
+  localField: "_id",
+  foreignField: "category",
+});
+
+categorySchema.set("toJSON", { virtuals: true });
+
 const Category = mongoose.model("Category", categorySchema);
 
 module.exports = Category;
