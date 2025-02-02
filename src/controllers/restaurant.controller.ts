@@ -1,6 +1,7 @@
-const restaurantService = require("../services/restaurant.service");
+import { restaurantService } from "../services/restaurant.service";
+import { Request, Response } from "express";
 
-const getAllRestaurants = async (req, res) => {
+const getAllRestaurants = async (req: Request, res: Response) => {
   try {
     const restaurantsArray = await restaurantService.findAll();
 
@@ -17,7 +18,7 @@ const getAllRestaurants = async (req, res) => {
   }
 };
 
-const createNewRestaurant = async (req, res) => {
+const createNewRestaurant = async (req: Request, res: Response) => {
   try {
     const createdRestaurant = await restaurantService.createNew(req.body);
 
@@ -29,14 +30,14 @@ const createNewRestaurant = async (req, res) => {
     console.log(error, "error");
 
     res.status(500).json({
-      message: "Internal Server Error",
+      message: "Internal Server Error"
     });
   }
 };
 
-const getARestaurant = async (req, res) => {
+const getARestaurant = async (req: Request, res: Response) => {
   try {
-    const foundRestaurant = await restaurantService.findById(req.params.id);
+    const foundRestaurant = await restaurantService.findById(Number(req.params.id));
 
     if (!foundRestaurant) {
       res.status(404).json({
@@ -59,10 +60,10 @@ const getARestaurant = async (req, res) => {
   }
 };
 
-const updateARestaurantFully = async (req, res) => {
+const updateARestaurantFully = async (req: Request, res: Response) => {
   try {
     const updatedRestaurant = await restaurantService.findByIdAndUpdate(
-      req.params.id,
+      Number(req.params.id),
       req.body,
     );
 
@@ -86,10 +87,10 @@ const updateARestaurantFully = async (req, res) => {
   }
 };
 
-const updateARestaurantPartially = async (req, res) => {
+const updateARestaurantPartially = async (req: Request, res: Response) => {
   try {
     const updatedRestaurant = await restaurantService.findByIdAndUpdate(
-      req.params.id,
+      Number(req.params.id),
       req.body,
     );
 
@@ -114,10 +115,10 @@ const updateARestaurantPartially = async (req, res) => {
   }
 };
 
-const deleteARestaurant = async (req, res) => {
+const deleteARestaurant = async (req: Request, res: Response) => {
   try {
     const deletedRestaurant = await restaurantService.findByIdAndDelete(
-      req.params.id,
+      Number(req.params.id),
     );
 
     if (!deletedRestaurant) {

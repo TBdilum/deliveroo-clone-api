@@ -1,29 +1,31 @@
-const Restaurant = require("../models/restaurant.model");
+import Restaurant from "../models/restaurant.model";
 
 const findAll = async () => {
   return Restaurant.find();
 };
 
-const createNew = async (data) => {
+const createNew = async (data: any) => {
   return Restaurant.create(data);
 };
 
-const findById = async (id) => {
+const findById = async (id: number) => {
   return Restaurant.findById(id);
 };
 
-const findByIdAndUpdate = async (id, data) => {
+const findByIdAndUpdate = async (id: number, data: any) => {
   return Restaurant.findByIdAndUpdate(id, data, { new: true });
 };
 
-const findByIdAndDelete = async (id) => {
+const findByIdAndDelete = async (id: number) => {
   return Restaurant.findByIdAndDelete(id, { new: true });
 };
 
-module.exports = {
-  findById,
+export const restaurantService = {
+    findById,
   createNew,
   findAll,
   findByIdAndUpdate,
   findByIdAndDelete,
+  
 };
+
