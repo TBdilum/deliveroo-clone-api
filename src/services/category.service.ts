@@ -1,30 +1,30 @@
-const Category = require("../models/category.model");
+import Category from "../models/category.model";
 
-const findAll = async (filters, populate) => {
+const findAll = async (filters: any, populate: any) => {
   return Category.find(filters).populate(populate);
 };
 
-const createNew = async (data) => {
+const createNew = async (data: any) => {
   return Category.create(data);
 };
 
-const findById = async (id) => {
+const findById = async (id: number) => {
   return Category.findById(id);
 };
 
-const findByIdAndUpdate = async (id, data) => {
+const findByIdAndUpdate = async (id: number, data: any) => {
   return Category.findByIdAndUpdate(id, data, { new: true });
 };
 
-const findAndUpdatePartially = async (id, data) => {
+const findAndUpdatePartially = async (id: number, data: any) => {
   return Category.findByIdAndUpdate(id, data, { new: true });
 };
 
-const findByIdAndDelete = async (id) => {
+const findByIdAndDelete = async (id: number) => {
   return Category.findByIdAndDelete(id, { new: true });
 };
 
-module.exports = {
+export const categoryService = {
   findById,
   createNew,
   findAll,

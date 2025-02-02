@@ -1,12 +1,20 @@
-const categoryService = require("../services/category.service");
-const restaurantService = require("../services/restaurant.service");
+import { categoryService } from "../services/category.service";
+import { restaurantService } from "../services/restaurant.service";
+import { Request, Response } from "express";
 
-const getAllCategories = async (req, res) => {
+interface CategoryFilters {
+  restaurant?: string;
+}
+
+interface FoundRestaurant {
+  restaurant: string | null| number;
+}
+const getAllCategories = async (req: Request, res: Response) => {
   try {
-    const filters = {};
+    const filters : CategoryFilters = {};
 
     if (req.query.restaurant) {
-      filters.restaurant = req.query.restaurant;
+      filters.restaurant = req.query.restaurant as string;
     }
 
     const categoriesArray = await categoryService.findAll(
@@ -27,11 +35,12 @@ const getAllCategories = async (req, res) => {
   }
 };
 
-const createNewCategory = async (req, res) => {
+
+const createNewCategory = async (req: Request, res: Response) => {
   try {
     const foundRestaurant = await restaurantService.findById(
       req.body.restaurant,
-    );
+    ) as FoundRestaurant | null;
 
     if (!foundRestaurant) {
       res.status(404).json({
@@ -46,7 +55,7 @@ const createNewCategory = async (req, res) => {
     res.status(201).json({
       message: "Created",
       data: createdCategory,
-      restaurant: foundRestaurant.restaurant,
+      restaurant: foundRestaurant.restaurant as string,
     });
   } catch (error) {
     console.log(error, "error");
@@ -57,9 +66,9 @@ const createNewCategory = async (req, res) => {
   }
 };
 
-const getCategory = async (req, res) => {
+const getCategory = async (req: Request, res: Response) => {
   try {
-    const foundCategory = await categoryService.findById(req.params.id);
+    const foundCategory = await categoryService.findById(Number(req.params.id));
 
     if (!foundCategory) {
       res.status(404).json({
@@ -82,7 +91,7 @@ const getCategory = async (req, res) => {
   }
 };
 
-const updateCategoryFully = async (req, res) => {
+const updateCategoryFully = async (req: Request, res: Response) => {
   try {
     const foundRestaurant = await restaurantService.findById(
       req.body.restaurant,
@@ -97,7 +106,7 @@ const updateCategoryFully = async (req, res) => {
     }
 
     const updatedCategory = await categoryService.findByIdAndUpdate(
-      req.params.id,
+      Number(req.params.id),
       req.body,
     );
 
@@ -120,7 +129,7 @@ const updateCategoryFully = async (req, res) => {
   }
 };
 
-const updateCategoryPartially = async (req, res) => {
+const updateCategoryPartially = async (req: Request, res: Response) => {
   try {
     if (req.body.restaurant) {
       const foundRestaurant = await restaurantService.findById(
@@ -137,7 +146,7 @@ const updateCategoryPartially = async (req, res) => {
     }
 
     const patchedCategory = await categoryService.findAndUpdatePartially(
-      req.params.id,
+      Number(req.params.id),
       req.body,
     );
 
@@ -160,10 +169,10 @@ const updateCategoryPartially = async (req, res) => {
   }
 };
 
-const deleteCategory = async (req, res) => {
+const deleteCategory = async (req: Request, res: Response) => {
   try {
     const deletedCategory = await categoryService.findByIdAndDelete(
-      req.params.id,
+      Number(req.params.id),
     );
 
     if (!deletedCategory) {

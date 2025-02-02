@@ -1,30 +1,30 @@
-const Dish = require("../models/dish.model");
+import  Dish  from "../models/dish.model";
 
-const findAll = async (filters, populate) => {
+const findAll = async (filters: any, populate: any) => {
   return Dish.find(filters).populate(populate);
 };
 
-const createNew = async (data) => {
+const createNew = async (data: any) => {
   return await Dish.create(data);
 };
 
-const findById = async (id) => {
+const findById = async (id: number) => {
   return Dish.findById(id);
 };
 
-const findByIdAndUpdate = async (id, data) => {
+const findByIdAndUpdate = async (id: number, data: any) => {
   return Dish.findByIdAndUpdate(id, data, { new: true });
 };
 
-const findAndUpdatePartially = async (id, data) => {
+const findAndUpdatePartially = async (id: number, data: any) => {
   return Dish.findByIdAndUpdate(id, data, { new: true });
 };
 
-const findByIdAndDelete = async (id) => {
+const findByIdAndDelete = async (id: number) => {
   return Dish.findByIdAndDelete(id, { new: true });
 };
 
-module.exports = {
+export const dishService = {
   findById,
   createNew,
   findAll,

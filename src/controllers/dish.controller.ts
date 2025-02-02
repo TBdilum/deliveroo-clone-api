@@ -1,16 +1,21 @@
-const dishService = require("../services/dish.service");
-const categoryService = require("../services/category.service");
+import { dishService } from "../services/dish.service";
+import { categoryService } from "../services/category.service";
+import { Request, Response } from "express";
 
-const getAllDishes = async (req, res) => {
+interface DishFilters {
+  restaurant?: string;
+  category?: string;}
+
+const getAllDishes = async (req: Request, res: Response) => {
   try {
-    const filters = {};
+    const filters: DishFilters = {};
 
     if (req.query.restaurant) {
-      filters.restaurant = req.query.restaurant;
+      filters.restaurant = req.query.restaurant as string;
     }
 
     if (req.query.category) {
-      filters.category = req.query.category;
+      filters.category = req.query.category as string;
     }
 
     const dishesArray = await dishService.findAll(filters, req.query.populate);
@@ -28,7 +33,7 @@ const getAllDishes = async (req, res) => {
   }
 };
 
-const createNewDish = async (req, res) => {
+const createNewDish = async (req: Request, res: Response) => {
   try {
     const foundCategory = await categoryService.findById(req.body.category);
 
@@ -58,9 +63,9 @@ const createNewDish = async (req, res) => {
   }
 };
 
-const getADish = async (req, res) => {
+const getADish = async (req: Request, res: Response) => {
   try {
-    const foundDish = await dishService.findById(req.params.id);
+    const foundDish = await dishService.findById(Number(req.params.id));
 
     if (!foundDish) {
       res.status(404).json({
@@ -82,7 +87,7 @@ const getADish = async (req, res) => {
   }
 };
 
-const updateDishFully = async (req, res) => {
+const updateDishFully = async (req: Request, res: Response) => {
   try {
     const foundCategory = await categoryService.findById(req.body.category);
 
@@ -94,7 +99,7 @@ const updateDishFully = async (req, res) => {
       return;
     }
 
-    const updatedDish = await dishService.findByIdAndUpdate(req.params.id, {
+    const updatedDish = await dishService.findByIdAndUpdate(Number(req.params.id), {
       ...req.body,
       restaurant: foundCategory.restaurant,
     });
@@ -119,7 +124,7 @@ const updateDishFully = async (req, res) => {
   }
 };
 
-const updateDishPartially = async (req, res) => {
+const updateDishPartially = async (req: Request, res: Response) => {
   try {
     let foundCategory;
     if (req.body.category) {
@@ -135,7 +140,7 @@ const updateDishPartially = async (req, res) => {
     }
 
     const patchedDish = await dishService.findAndUpdatePartially(
-      req.params.id,
+      Number(req.params.id),
       {
         ...req.body,
         ...(foundCategory
@@ -165,9 +170,9 @@ const updateDishPartially = async (req, res) => {
   }
 };
 
-const deleteDish = async (req, res) => {
+const deleteDish = async (req: Request, res: Response) => {
   try {
-    const deletedDish = await dishService.findByIdAndDelete(req.params.id);
+    const deletedDish = await dishService.findByIdAndDelete(Number(req.params.id));
 
     if (!deletedDish) {
       res.status(404).json({
