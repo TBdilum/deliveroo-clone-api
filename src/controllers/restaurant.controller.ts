@@ -1,7 +1,7 @@
 import { restaurantService } from "../services/restaurant.service";
 import { Request, Response } from "express";
 
-const getAllRestaurants = async (req: Request, res: Response) => {
+const getAllRestaurants = async (_req: Request, res: Response) => {
   try {
     const restaurantsArray = await restaurantService.findAll();
 

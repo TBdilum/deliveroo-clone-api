@@ -8,7 +8,7 @@ router.get("/", (req, res) => {
   });
 });
 
-router.all("*", (req, res) => {
+router.all("*", (_req, res) => {
   res.status(404).json({
     message: "Route Not Found!",
   });
