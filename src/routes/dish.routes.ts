@@ -1,12 +1,13 @@
 import express from "express";
-const {
+import {
   getAllDishes,
   createNewDish,
   getADish,
-  deleteDish,
   updateDishPartially,
   updateDishFully,
-} = require("../controllers/dish.controller.js");
+  deleteDish,
+} from "../controllers/dish.controller";
+
 
 const router = express.Router();
 
@@ -22,4 +23,4 @@ router.patch("/:id", updateDishPartially);
 
 router.delete("/:id", deleteDish);
 
-module.exports = router;
+export default router;

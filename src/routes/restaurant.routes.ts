@@ -1,14 +1,14 @@
 import express from "express";
 const router = express.Router();
 
-const {
+import {
   getAllRestaurants,
   createNewRestaurant,
-  updateARestaurantFully,
   getARestaurant,
   updateARestaurantPartially,
-  deleteARestaurant,
-} = require("../controllers/restaurant.controller");
+  updateARestaurantFully,
+  deleteARestaurant,  
+} from "../controllers/restaurant.controller";
 
 router.get("/", getAllRestaurants);
 
@@ -22,4 +22,4 @@ router.patch("/:id", updateARestaurantPartially);
 
 router.delete("/:id", deleteARestaurant);
 
-module.exports = router;
+export default router;

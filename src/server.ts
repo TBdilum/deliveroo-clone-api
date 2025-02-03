@@ -1,12 +1,12 @@
-const express = require("express");
-const mongoose = require("mongoose");
+import express from "express";
+import mongoose from "mongoose";
 
 require("dotenv").config();
 
-const commonRoutes = require("./routes/common.routes");
-const restaurantRoutes = require("./routes/restaurant.routes");
-const dishRoutes = require("./routes/dish.routes");
-const categoryRoutes = require("./routes/category.routes");
+import commonRoutes from "./routes/common.routes";
+import restaurantRoutes from "./routes/restaurant.routes";
+import dishRoutes from "./routes/dish.routes";
+import categoryRoutes from "./routes/category.routes";
 const app = express();
 const port = 3000;
 
@@ -20,7 +20,11 @@ app.use(commonRoutes);
 
 const startServer = async () => {
   try {
-    await mongoose.connect(process.env.DATABASE_URL);
+    const databaseUrl = process.env.DATABASE_URL;
+    if (!databaseUrl) {
+      throw new Error("DATABASE_URL is not defined");
+    }
+    await mongoose.connect(databaseUrl);
     app.listen(port, () => {
       console.log(`deliveroo-api listening on port ${port}`);
     });

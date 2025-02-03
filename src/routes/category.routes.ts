@@ -1,12 +1,14 @@
 import express from "express";
+import categoryController from "../controllers/category.controller";
 const {
   getAllCategories,
   createNewCategory,
-  updateCategoryFully,
-  updateCategoryPartially,
   getCategory,
+  updateCategoryPartially,
+  updateCategoryFully,
   deleteCategory,
-} = require("../controllers/category.controller.js");
+} = categoryController;
+
 const router = express.Router();
 
 router.get("/", getAllCategories);
@@ -21,4 +23,4 @@ router.patch("/:id", updateCategoryPartially);
 
 router.delete("/:id", deleteCategory);
 
-module.exports = router;
+export default router;

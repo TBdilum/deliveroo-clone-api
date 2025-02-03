@@ -193,7 +193,7 @@ const deleteDish = async (req: Request, res: Response) => {
   }
 };
 
-module.exports = {
+export {
   getAllDishes,
   createNewDish,
   getADish,
