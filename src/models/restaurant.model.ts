@@ -1,9 +1,11 @@
 import { ObjectId, Schema, model } from "mongoose";
+import { UUID } from "mongodb";
 
 export type IRestaurant = {
   _id: ObjectId;
   createdAt: Date;
   updatedAt: Date;
+  orgId: UUID;
 
   name: string;
   description?: string;
@@ -29,6 +31,10 @@ const restaurantSchema = new Schema<IRestaurant>(
       required: true,
     },
     closingAt: {
+      type: String,
+      required: true,
+    },
+    orgId: {
       type: String,
       required: true,
     },

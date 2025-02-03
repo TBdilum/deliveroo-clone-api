@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import Restaurant, { IRestaurant } from "../models/restaurant.model";
 import { CreateModel } from "../types/mongoose.types";
 
@@ -6,7 +7,7 @@ const findAll = async () => {
 };
 
 const createNew = async (data: CreateModel<IRestaurant>) => {
-  return Restaurant.create(data);
+  return Restaurant.create({ ...data, orgId: new ObjectId() });
 };
 
 const findById = async (id: number) => {

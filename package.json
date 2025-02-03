@@ -15,6 +15,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "mongodb": "^6.13.0",
+    "uuid": "^11.0.5",
     "zod": "^3.25.0-canary.20241210T225910"
   },
   "devDependencies": {
