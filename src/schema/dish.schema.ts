@@ -1,10 +1,11 @@
+import { populate } from "dotenv";
 import { z } from "zod";
 
 const DishName = z.string().min(4).max(50);
 const DishDescription = z.string().min(3).max(150);
 const DishPrice = z.number().min(1);
 const DishCategory = z.string().min(4).max(30).or(z.number());
-const DishRestaurant = z.string().min(4).max(20).or(z.number());
+const DishRestaurant = z.string().min(4).max(30).or(z.number());
 
 export const CreateDishRequestBodySchema = z.object({
   name: DishName,
@@ -19,3 +20,9 @@ export const FullyUpdateDishRequestBodySchema =
 
 export const PartiallyUpdateDishRequestBodySchema =
   CreateDishRequestBodySchema.optional();
+
+export const DishQueryParamsSchema = z.object({
+  populate: z.string(),
+  restaurant: z.string().min(4).max(30),
+  category: z.string().min(4).max(30),
+});

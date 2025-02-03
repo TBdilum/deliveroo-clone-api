@@ -10,15 +10,17 @@ import {
 } from "../controllers/dish.controller";
 import {
   CreateDishRequestBodySchema,
+  DishQueryParamsSchema,
   FullyUpdateDishRequestBodySchema,
   PartiallyUpdateDishRequestBodySchema,
 } from "../schema/dish.schema";
 import ValidateParams from "../middleware/validate-params.middleware";
 import { objectIdPathParamsSchema } from "../schema/common.schema";
+import ValidateQuery from "../middleware/validate-query.middleware";
 
 const router = express.Router();
 
-router.get("/", getAllDishes);
+router.get("/", getAllDishes, ValidateQuery(DishQueryParamsSchema));
 
 router.post("/", ValidateBody(CreateDishRequestBodySchema), createNewDish);
 
@@ -29,7 +31,12 @@ router.put(
   updateDishFully,
 );
 
-router.get("/:id", ValidateParams(objectIdPathParamsSchema), getADish);
+router.get(
+  "/:id",
+  ValidateParams(objectIdPathParamsSchema),
+  getADish,
+  ValidateQuery(DishQueryParamsSchema),
+);
 
 router.patch(
   "/:id",
