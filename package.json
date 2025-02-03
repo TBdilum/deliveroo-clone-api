@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Node.js backend API for deliveroo clone",
   "main": "src/server.ts",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "dev": "nodemon src/server.ts"
   },

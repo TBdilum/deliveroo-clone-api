@@ -1,7 +1,9 @@
 import express from "express";
 import mongoose from "mongoose";
 
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
+
 
 import commonRoutes from "./routes/common.routes";
 import restaurantRoutes from "./routes/restaurant.routes";
