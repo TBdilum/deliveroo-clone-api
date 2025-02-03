@@ -13,3 +13,8 @@ export const FullyUpdateCategoryRequestBodySchema =
 
 export const PartiallyUpdateCategoryRequestBodySchema =
   CreateCategoryRequestBodySchema.optional();
+
+export const CategoryQueryParamsSchema = z.object({
+  populate: z.string(),
+  restaurant: z.string().min(1).max(20).or(z.number()),
+});

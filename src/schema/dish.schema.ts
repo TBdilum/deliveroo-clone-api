@@ -1,4 +1,3 @@
-import { populate } from "dotenv";
 import { z } from "zod";
 
 const DishName = z.string().min(4).max(50);
@@ -23,6 +22,6 @@ export const PartiallyUpdateDishRequestBodySchema =
 
 export const DishQueryParamsSchema = z.object({
   populate: z.string(),
-  restaurant: z.string().min(4).max(30),
-  category: z.string().min(4).max(30),
+  restaurant: z.string().min(4).max(30).or(z.number()),
+  category: z.string().min(4).max(30).or(z.number()),
 });
