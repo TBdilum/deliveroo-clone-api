@@ -1,10 +1,5 @@
 import express from "express";
 const router = express.Router();
-import {
-  deleteRestaurantSchema,
-  restaurantSchema,
-  updateRestaurantSchema,
-} from "../validations/restaurant.validation";
 
 import {
   getAllRestaurants,
@@ -14,22 +9,43 @@ import {
   updateARestaurantFully,
   deleteARestaurant,
 } from "../controllers/restaurant.controller";
-import validate from "../middleware/req.validate";
+import ValidateBody from "../middleware/validate-body.middleware";
+import {
+  createRestaurantRequestBodySchema,
+  updateRestaurantFullyRequestBodySchema,
+  updateRestaurantPartiallyRequestBodySchema,
+} from "../schema/restaurant.schema";
+import { objectIdPathParamsSchema } from "../schema/common.schema";
+import ValidateParams from "../middleware/validate-params.middleware";
 
 router.get("/", getAllRestaurants);
 
-router.post("/", validate(restaurantSchema), createNewRestaurant);
+router.post(
+  "/",
+  ValidateBody(createRestaurantRequestBodySchema),
+  createNewRestaurant,
+);
 
-router.put("/:id", validate(restaurantSchema), updateARestaurantFully);
+router.put(
+  "/:id",
+  ValidateParams(objectIdPathParamsSchema),
+  ValidateBody(updateRestaurantFullyRequestBodySchema),
+  updateARestaurantFully,
+);
 
-router.get("/:id", getARestaurant);
+router.get("/:id", ValidateParams(objectIdPathParamsSchema), getARestaurant);
 
 router.patch(
   "/:id",
-  validate(updateRestaurantSchema),
+  ValidateParams(objectIdPathParamsSchema),
+  ValidateBody(updateRestaurantPartiallyRequestBodySchema),
   updateARestaurantPartially,
 );
 
-router.delete("/:id", validate(deleteRestaurantSchema), deleteARestaurant);
+router.delete(
+  "/:id",
+  ValidateParams(objectIdPathParamsSchema),
+  deleteARestaurant,
+);
 
 export default router;

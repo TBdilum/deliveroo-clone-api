@@ -1,7 +1,9 @@
 import { restaurantService } from "../services/restaurant.service";
+import { z } from "zod";
 import { Request, Response } from "express";
+import { createRestaurantRequestBodySchema } from "../schema/restaurant.schema";
 
-const getAllRestaurants = async (req: Request, res: Response) => {
+const getAllRestaurants = async (_req: Request, res: Response) => {
   try {
     const restaurantsArray = await restaurantService.findAll();
 
@@ -18,7 +20,14 @@ const getAllRestaurants = async (req: Request, res: Response) => {
   }
 };
 
-const createNewRestaurant = async (req: Request, res: Response) => {
+const createNewRestaurant = async (
+  req: Request<
+    unknown,
+    unknown,
+    z.infer<typeof createRestaurantRequestBodySchema>
+  >,
+  res: Response,
+) => {
   try {
     const createdRestaurant = await restaurantService.createNew(req.body);
 

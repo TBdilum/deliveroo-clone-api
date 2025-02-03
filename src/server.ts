@@ -2,12 +2,14 @@ import express from "express";
 import mongoose from "mongoose";
 
 import dotenv from "dotenv";
-dotenv.config();
 
 import commonRoutes from "./routes/common.routes";
 import restaurantRoutes from "./routes/restaurant.routes";
 import dishRoutes from "./routes/dish.routes";
 import categoryRoutes from "./routes/category.routes";
+
+dotenv.config();
+
 const app = express();
 const port = 3000;
 

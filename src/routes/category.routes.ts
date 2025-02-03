@@ -1,12 +1,13 @@
 import express from "express";
 import categoryController from "../controllers/category.controller";
-import validate from "../middleware/validate-body.middleware";
+import ValidateBody from "../middleware/validate-body.middleware";
 import {
   CreateCategoryRequestBodySchema,
   FullyUpdateCategoryRequestBodySchema,
   PartiallyUpdateCategoryRequestBodySchema,
-  deleteCategorySchema,
 } from "../schema/category.schema";
+import ValidateParams from "../middleware/validate-params.middleware";
+import { objectIdPathParamsSchema } from "../schema/common.schema";
 const {
   getAllCategories,
   createNewCategory,
@@ -20,22 +21,28 @@ const router = express.Router();
 
 router.get("/", getAllCategories);
 
-router.post("/", validate(CreateCategoryRequestBodySchema), createNewCategory);
+router.post(
+  "/",
+  ValidateBody(CreateCategoryRequestBodySchema),
+  createNewCategory,
+);
 
 router.put(
   "/:id",
-  validate(FullyUpdateCategoryRequestBodySchema),
+  ValidateParams(objectIdPathParamsSchema),
+  ValidateBody(FullyUpdateCategoryRequestBodySchema),
   updateCategoryFully,
 );
 
-router.get("/:id", getCategory);
+router.get("/:id", ValidateParams(objectIdPathParamsSchema), getCategory);
 
 router.patch(
   "/:id",
-  validate(PartiallyUpdateCategoryRequestBodySchema),
+  ValidateParams(objectIdPathParamsSchema),
+  ValidateBody(PartiallyUpdateCategoryRequestBodySchema),
   updateCategoryPartially,
 );
 
-router.delete("/:id", validate(deleteCategorySchema), deleteCategory);
+router.delete("/:id", ValidateParams(objectIdPathParamsSchema), deleteCategory);
 
 export default router;

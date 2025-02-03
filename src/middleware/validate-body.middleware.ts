@@ -1,14 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import { ZodSchema } from "zod";
 
-const validate =
-  (schema: ZodSchema) => (req: Request, res: Response, next: NextFunction) => {
+const ValidateBody =
+  (bodySchema: ZodSchema) =>
+  (req: Request, res: Response, next: NextFunction) => {
     try {
-      schema.parse({
-        body: req.body,
-        query: req.query,
-        params: req.params,
-      });
+      bodySchema.parse(req.body);
       next();
     } catch (error) {
       res.status(400).json({
@@ -18,4 +15,4 @@ const validate =
     }
   };
 
-export default validate;
+export default ValidateBody;

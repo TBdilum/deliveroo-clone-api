@@ -1,10 +1,11 @@
-import Restaurant from "../models/restaurant.model";
+import Restaurant, { IRestaurant } from "../models/restaurant.model";
+import { CreateModel } from "../types/mongoose.types";
 
 const findAll = async () => {
   return Restaurant.find();
 };
 
-const createNew = async (data: any) => {
+const createNew = async (data: CreateModel<IRestaurant>) => {
   return Restaurant.create(data);
 };
 

@@ -1,10 +1,5 @@
 import express from "express";
-import validate from "../middleware/req.validate";
-import {
-  deleteDishSchema,
-  dishSchema,
-  updateDishSchema,
-} from "../validations/dish.validation";
+import ValidateBody from "../middleware/validate-body.middleware";
 import {
   getAllDishes,
   createNewDish,
@@ -13,19 +8,36 @@ import {
   updateDishFully,
   deleteDish,
 } from "../controllers/dish.controller";
+import {
+  CreateDishRequestBodySchema,
+  FullyUpdateDishRequestBodySchema,
+  PartiallyUpdateDishRequestBodySchema,
+} from "../schema/dish.schema";
+import ValidateParams from "../middleware/validate-params.middleware";
+import { objectIdPathParamsSchema } from "../schema/common.schema";
 
 const router = express.Router();
 
 router.get("/", getAllDishes);
 
-router.post("/", validate(dishSchema), createNewDish);
+router.post("/", ValidateBody(CreateDishRequestBodySchema), createNewDish);
 
-router.put("/:id", validate(dishSchema), updateDishFully);
+router.put(
+  "/:id",
+  ValidateParams(objectIdPathParamsSchema),
+  ValidateBody(FullyUpdateDishRequestBodySchema),
+  updateDishFully,
+);
 
-router.get("/:id", getADish);
+router.get("/:id", ValidateParams(objectIdPathParamsSchema), getADish);
 
-router.patch("/:id", validate(updateDishSchema), updateDishPartially);
+router.patch(
+  "/:id",
+  ValidateParams(objectIdPathParamsSchema),
+  ValidateBody(PartiallyUpdateDishRequestBodySchema),
+  updateDishPartially,
+);
 
-router.delete("/:id", validate(deleteDishSchema), deleteDish);
+router.delete("/:id", ValidateParams(objectIdPathParamsSchema), deleteDish);
 
 export default router;
