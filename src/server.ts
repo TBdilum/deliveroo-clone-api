@@ -10,6 +10,7 @@ import categoryRoutes from "./routes/category.routes";
 const app = express();
 const port = 3000;
 
+
 app.use(express.json());
 
 app.use("/restaurants", restaurantRoutes);
@@ -32,5 +33,7 @@ const startServer = async () => {
     console.log(error, "error");
   }
 };
+
+
 
 startServer();

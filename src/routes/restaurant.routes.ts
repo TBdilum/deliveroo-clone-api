@@ -1,5 +1,6 @@
 import express from "express";
 const router = express.Router();
+import { restaurantSchema } from "../validations/restaurant.validation";
 
 import {
   getAllRestaurants,
@@ -9,16 +10,17 @@ import {
   updateARestaurantFully,
   deleteARestaurant,  
 } from "../controllers/restaurant.controller";
+import validate from "../middleware/req.validate";
 
 router.get("/", getAllRestaurants);
 
-router.post("/", createNewRestaurant);
+router.post("/",validate(restaurantSchema) ,createNewRestaurant);
 
-router.put("/:id", updateARestaurantFully);
+router.put("/:id", validate(restaurantSchema) ,updateARestaurantFully);
 
 router.get("/:id", getARestaurant);
 
-router.patch("/:id", updateARestaurantPartially);
+router.patch("/:id",validate(restaurantSchema) , updateARestaurantPartially);
 
 router.delete("/:id", deleteARestaurant);
 
