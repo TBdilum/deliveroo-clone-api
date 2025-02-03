@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const categoryNameSchema = z.string().min(1).max(20);
-const categoryRestaurantSchema = z.string().min(1).max(20);
+const categoryRestaurantSchema = z.string().min(1).max(20).or(z.number());
 
 export const CreateCategoryRequestBodySchema = z.object({
   name: categoryNameSchema,
