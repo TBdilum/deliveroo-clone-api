@@ -13,3 +13,9 @@ export const restaurantSchema = z.object({
 });
 
 export const updateRestaurantSchema = restaurantSchema.partial();
+
+export const deleteRestaurantSchema = z.object({
+    params: z.object({
+        id: z.string().regex(/^[a-fA-F0-9]{24}$/, "Invalid ID"),
+    })
+})

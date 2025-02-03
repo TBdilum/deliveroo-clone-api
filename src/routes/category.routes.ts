@@ -1,7 +1,7 @@
 import express from "express";
 import categoryController from "../controllers/category.controller";
 import validate from "../middleware/req.validate";
-import { categorySchema, updateCategorySchema } from "../validations/category.validation";
+import { categorySchema, deleteCategorySchema, updateCategorySchema } from "../validations/category.validation";
 const {
   getAllCategories,
   createNewCategory,
@@ -23,6 +23,6 @@ router.get("/:id", getCategory);
 
 router.patch("/:id", validate(updateCategorySchema) ,updateCategoryPartially);
 
-router.delete("/:id", deleteCategory);
+router.delete("/:id",validate(deleteCategorySchema) ,deleteCategory);
 
 export default router;

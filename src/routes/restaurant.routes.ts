@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import { restaurantSchema, updateRestaurantSchema } from "../validations/restaurant.validation";
+import { deleteRestaurantSchema, restaurantSchema, updateRestaurantSchema } from "../validations/restaurant.validation";
 
 import {
   getAllRestaurants,
@@ -22,6 +22,6 @@ router.get("/:id", getARestaurant);
 
 router.patch("/:id",validate(updateRestaurantSchema) , updateARestaurantPartially);
 
-router.delete("/:id", deleteARestaurant);
+router.delete("/:id", validate(deleteRestaurantSchema),deleteARestaurant);
 
 export default router;

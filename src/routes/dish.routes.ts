@@ -1,6 +1,6 @@
 import express from "express";
 import validate from "../middleware/req.validate";
-import { dishSchema, updateDishSchema } from "../validations/dish.validation";
+import { deleteDishSchema, dishSchema, updateDishSchema } from "../validations/dish.validation";
 import {
   getAllDishes,
   createNewDish,
@@ -23,6 +23,6 @@ router.get("/:id", getADish);
 
 router.patch("/:id",validate(updateDishSchema) , updateDishPartially);
 
-router.delete("/:id", deleteDish);
+router.delete("/:id", validate(deleteDishSchema),deleteDish);
 
 export default router;
