@@ -1,13 +1,13 @@
-import { ObjectId } from "mongodb";
 import Restaurant, { IRestaurant } from "../models/restaurant.model";
 import { CreateModel } from "../types/mongoose.types";
+import { v4 as uuidv4 } from "uuid";
 
 const findAll = async () => {
   return Restaurant.find();
 };
 
 const createNew = async (data: CreateModel<IRestaurant>) => {
-  return Restaurant.create({ ...data, orgId: new ObjectId() });
+  return Restaurant.create({ ...data, orgId: uuidv4() });
 };
 
 const findById = async (id: number) => {

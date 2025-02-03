@@ -5,7 +5,7 @@ export type IRestaurant = {
   _id: ObjectId;
   createdAt: Date;
   updatedAt: Date;
-  orgId: UUID;
+  orgId: string;
 
   name: string;
   description?: string;
@@ -37,6 +37,7 @@ const restaurantSchema = new Schema<IRestaurant>(
     orgId: {
       type: String,
       required: true,
+      unique: true,
     },
   },
   { timestamps: true },
