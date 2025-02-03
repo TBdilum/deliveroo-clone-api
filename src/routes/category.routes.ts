@@ -1,7 +1,12 @@
 import express from "express";
 import categoryController from "../controllers/category.controller";
-import validate from "../middleware/req.validate";
-import { categorySchema, deleteCategorySchema, updateCategorySchema } from "../validations/category.validation";
+import validate from "../middleware/validate-body.middleware";
+import {
+  CreateCategoryRequestBodySchema,
+  FullyUpdateCategoryRequestBodySchema,
+  PartiallyUpdateCategoryRequestBodySchema,
+  deleteCategorySchema,
+} from "../schema/category.schema";
 const {
   getAllCategories,
   createNewCategory,
@@ -15,14 +20,22 @@ const router = express.Router();
 
 router.get("/", getAllCategories);
 
-router.post("/",validate(categorySchema) , createNewCategory);
+router.post("/", validate(CreateCategoryRequestBodySchema), createNewCategory);
 
-router.put("/:id",validate(categorySchema) , updateCategoryFully);
+router.put(
+  "/:id",
+  validate(FullyUpdateCategoryRequestBodySchema),
+  updateCategoryFully,
+);
 
 router.get("/:id", getCategory);
 
-router.patch("/:id", validate(updateCategorySchema) ,updateCategoryPartially);
+router.patch(
+  "/:id",
+  validate(PartiallyUpdateCategoryRequestBodySchema),
+  updateCategoryPartially,
+);
 
-router.delete("/:id",validate(deleteCategorySchema) ,deleteCategory);
+router.delete("/:id", validate(deleteCategorySchema), deleteCategory);
 
 export default router;

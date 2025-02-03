@@ -4,14 +4,12 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 
-
 import commonRoutes from "./routes/common.routes";
 import restaurantRoutes from "./routes/restaurant.routes";
 import dishRoutes from "./routes/dish.routes";
 import categoryRoutes from "./routes/category.routes";
 const app = express();
 const port = 3000;
-
 
 app.use(express.json());
 
@@ -35,7 +33,5 @@ const startServer = async () => {
     console.log(error, "error");
   }
 };
-
-
 
 startServer();

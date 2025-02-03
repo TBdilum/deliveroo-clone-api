@@ -1,6 +1,10 @@
 import express from "express";
 const router = express.Router();
-import { deleteRestaurantSchema, restaurantSchema, updateRestaurantSchema } from "../validations/restaurant.validation";
+import {
+  deleteRestaurantSchema,
+  restaurantSchema,
+  updateRestaurantSchema,
+} from "../validations/restaurant.validation";
 
 import {
   getAllRestaurants,
@@ -8,20 +12,24 @@ import {
   getARestaurant,
   updateARestaurantPartially,
   updateARestaurantFully,
-  deleteARestaurant,  
+  deleteARestaurant,
 } from "../controllers/restaurant.controller";
 import validate from "../middleware/req.validate";
 
 router.get("/", getAllRestaurants);
 
-router.post("/",validate(restaurantSchema) ,createNewRestaurant);
+router.post("/", validate(restaurantSchema), createNewRestaurant);
 
-router.put("/:id", validate(restaurantSchema) ,updateARestaurantFully);
+router.put("/:id", validate(restaurantSchema), updateARestaurantFully);
 
 router.get("/:id", getARestaurant);
 
-router.patch("/:id",validate(updateRestaurantSchema) , updateARestaurantPartially);
+router.patch(
+  "/:id",
+  validate(updateRestaurantSchema),
+  updateARestaurantPartially,
+);
 
-router.delete("/:id", validate(deleteRestaurantSchema),deleteARestaurant);
+router.delete("/:id", validate(deleteRestaurantSchema), deleteARestaurant);
 
 export default router;

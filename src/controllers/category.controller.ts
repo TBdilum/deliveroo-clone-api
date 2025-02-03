@@ -7,11 +7,11 @@ interface CategoryFilters {
 }
 
 interface FoundRestaurant {
-  restaurant: string | null| number;
+  restaurant: string | null | number;
 }
 const getAllCategories = async (req: Request, res: Response) => {
   try {
-    const filters : CategoryFilters = {};
+    const filters: CategoryFilters = {};
 
     if (req.query.restaurant) {
       filters.restaurant = req.query.restaurant as string;
@@ -35,12 +35,11 @@ const getAllCategories = async (req: Request, res: Response) => {
   }
 };
 
-
 const createNewCategory = async (req: Request, res: Response) => {
   try {
-    const foundRestaurant = await restaurantService.findById(
+    const foundRestaurant = (await restaurantService.findById(
       req.body.restaurant,
-    ) as FoundRestaurant | null;
+    )) as FoundRestaurant | null;
 
     if (!foundRestaurant) {
       res.status(404).json({

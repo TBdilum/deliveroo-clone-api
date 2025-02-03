@@ -1,7 +1,7 @@
 import { restaurantService } from "../services/restaurant.service";
 import { Request, Response } from "express";
 
-const getAllRestaurants = async (_req: Request, res: Response) => {
+const getAllRestaurants = async (req: Request, res: Response) => {
   try {
     const restaurantsArray = await restaurantService.findAll();
 
@@ -30,14 +30,16 @@ const createNewRestaurant = async (req: Request, res: Response) => {
     console.log(error, "error");
 
     res.status(500).json({
-      message: "Internal Server Error"
+      message: "Internal Server Error",
     });
   }
 };
 
 const getARestaurant = async (req: Request, res: Response) => {
   try {
-    const foundRestaurant = await restaurantService.findById(Number(req.params.id));
+    const foundRestaurant = await restaurantService.findById(
+      Number(req.params.id),
+    );
 
     if (!foundRestaurant) {
       res.status(404).json({

@@ -21,11 +21,9 @@ const findByIdAndDelete = async (id: number) => {
 };
 
 export const restaurantService = {
-    findById,
+  findById,
   createNew,
   findAll,
   findByIdAndUpdate,
   findByIdAndDelete,
-  
 };
-

@@ -4,7 +4,8 @@ import { Request, Response } from "express";
 
 interface DishFilters {
   restaurant?: string;
-  category?: string;}
+  category?: string;
+}
 
 const getAllDishes = async (req: Request, res: Response) => {
   try {
@@ -99,10 +100,13 @@ const updateDishFully = async (req: Request, res: Response) => {
       return;
     }
 
-    const updatedDish = await dishService.findByIdAndUpdate(Number(req.params.id), {
-      ...req.body,
-      restaurant: foundCategory.restaurant,
-    });
+    const updatedDish = await dishService.findByIdAndUpdate(
+      Number(req.params.id),
+      {
+        ...req.body,
+        restaurant: foundCategory.restaurant,
+      },
+    );
 
     if (!updatedDish) {
       res.status(404).json({
@@ -172,7 +176,9 @@ const updateDishPartially = async (req: Request, res: Response) => {
 
 const deleteDish = async (req: Request, res: Response) => {
   try {
-    const deletedDish = await dishService.findByIdAndDelete(Number(req.params.id));
+    const deletedDish = await dishService.findByIdAndDelete(
+      Number(req.params.id),
+    );
 
     if (!deletedDish) {
       res.status(404).json({

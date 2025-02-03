@@ -5,7 +5,9 @@
   "main": "src/server.ts",
   "type": "commonjs",
   "scripts": {
-    "dev": "nodemon src/server.ts"
+    "dev": "nodemon src/server.ts",
+    "format:fix": "prettier --write .",
+    "lint:fix": "eslint --fix src"
   },
   "author": "TBDilum",
   "license": "ISC",

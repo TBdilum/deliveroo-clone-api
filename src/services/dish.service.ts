@@ -1,4 +1,4 @@
-import  Dish  from "../models/dish.model";
+import Dish from "../models/dish.model";
 
 const findAll = async (filters: any, populate: any) => {
   return Dish.find(filters).populate(populate);
