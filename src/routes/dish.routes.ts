@@ -1,4 +1,6 @@
 import express from "express";
+import validate from "../middleware/req.validate";
+import { dishSchema, updateDishSchema } from "../validations/dish.validation";
 import {
   getAllDishes,
   createNewDish,
@@ -13,13 +15,13 @@ const router = express.Router();
 
 router.get("/", getAllDishes);
 
-router.post("/", createNewDish);
+router.post("/", validate(dishSchema) ,createNewDish);
 
-router.put("/:id", updateDishFully);
+router.put("/:id",validate(dishSchema) , updateDishFully);
 
 router.get("/:id", getADish);
 
-router.patch("/:id", updateDishPartially);
+router.patch("/:id",validate(updateDishSchema) , updateDishPartially);
 
 router.delete("/:id", deleteDish);
 

@@ -11,3 +11,5 @@ export const restaurantSchema = z.object({
     })
     
 });
+
+export const updateRestaurantSchema = restaurantSchema.partial();

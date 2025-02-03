@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import { restaurantSchema } from "../validations/restaurant.validation";
+import { restaurantSchema, updateRestaurantSchema } from "../validations/restaurant.validation";
 
 import {
   getAllRestaurants,
@@ -20,7 +20,7 @@ router.put("/:id", validate(restaurantSchema) ,updateARestaurantFully);
 
 router.get("/:id", getARestaurant);
 
-router.patch("/:id",validate(restaurantSchema) , updateARestaurantPartially);
+router.patch("/:id",validate(updateRestaurantSchema) , updateARestaurantPartially);
 
 router.delete("/:id", deleteARestaurant);
 
