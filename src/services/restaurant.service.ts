@@ -15,7 +15,7 @@ const findById = async (orgID: string) => {
   const input = mongoose.Types.ObjectId.isValid(orgID)
     ? { _id: orgID }
     : { name: orgID };
-  return Restaurant.find(input);
+  return Restaurant.findOne(input);
 };
 
 const findByIdAndUpdate = async (id: number, data: any) => {

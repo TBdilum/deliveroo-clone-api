@@ -7,11 +7,14 @@ import commonRoutes from "./routes/common.routes";
 import restaurantRoutes from "./routes/restaurant.routes";
 import dishRoutes from "./routes/dish.routes";
 import categoryRoutes from "./routes/category.routes";
+import cors from "cors";
 
 dotenv.config();
 
 const app = express();
 const port = 3000;
+
+app.use(cors());
 
 app.use(express.json());
 
