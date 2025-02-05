@@ -47,7 +47,7 @@ const createNewRestaurant = async (
 const getARestaurant = async (req: Request, res: Response) => {
   try {
     const foundRestaurant = await restaurantService.findById(
-      Number(req.params.id),
+      String(req.params.orgID),
     );
 
     if (!foundRestaurant) {

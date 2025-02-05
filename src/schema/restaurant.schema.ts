@@ -28,3 +28,14 @@ export const updateRestaurantPartiallyRequestBodySchema = z.object({
   openingAt: restaurantTimeSchema.optional(),
   closingAt: restaurantTimeSchema.optional(),
 });
+
+export const restaurantPathParamsSchema = z.object({
+  orgID: z
+    .string()
+    .min(4)
+    .max(30)
+    .regex(
+      /^(?:[a-zA-Z0-9_-]|%[0-9A-Fa-f]{2})+$/,
+      "orgID must contain only letters, numbers, dashes, underscores, or encoded characters",
+    ),
+});

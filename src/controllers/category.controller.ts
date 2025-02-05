@@ -1,3 +1,4 @@
+import { restaurantPathParamsSchema } from "../schema/restaurant.schema";
 import { categoryService } from "../services/category.service";
 import { restaurantService } from "../services/restaurant.service";
 import { Request, Response } from "express";
@@ -37,9 +38,14 @@ const getAllCategories = async (req: Request, res: Response) => {
 
 const createNewCategory = async (req: Request, res: Response) => {
   try {
+    const decodedOrgID = decodeURIComponent(req.params.orgID);
+
+    restaurantPathParamsSchema.safeParse({
+      orgID: decodedOrgID,
+    });
     const foundRestaurant = (await restaurantService.findById(
       req.body.restaurant,
-    )) as FoundRestaurant | null;
+    )) as unknown as FoundRestaurant | null;
 
     if (!foundRestaurant) {
       res.status(404).json({
