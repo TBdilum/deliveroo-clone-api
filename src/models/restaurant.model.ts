@@ -12,6 +12,8 @@ export type IRestaurant = {
   tags: string[];
   openingAt: string;
   closingAt: string;
+  minimumValue: string;
+  deliveryCharge: string;
 };
 
 const restaurantSchema = new Schema<IRestaurant>(
@@ -38,6 +40,14 @@ const restaurantSchema = new Schema<IRestaurant>(
       type: String,
       required: true,
       unique: true,
+    },
+    minimumValue: {
+      type: String,
+      required: true,
+    },
+    deliveryCharge: {
+      type: String,
+      required: true,
     },
   },
   { timestamps: true },
