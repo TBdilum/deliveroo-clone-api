@@ -12,13 +12,11 @@ import {
 import ValidateBody from "../middleware/validate-body.middleware";
 import {
   createRestaurantRequestBodySchema,
-  restaurantPathParamsSchema,
   updateRestaurantFullyRequestBodySchema,
   updateRestaurantPartiallyRequestBodySchema,
 } from "../schema/restaurant.schema";
 import { objectIdPathParamsSchema } from "../schema/common.schema";
 import ValidateParams from "../middleware/validate-params.middleware";
-import { validate } from "uuid";
 
 router.get("/", getAllRestaurants);
 

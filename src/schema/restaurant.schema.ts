@@ -6,6 +6,7 @@ const restaurantTagSchema = z.string().min(3).max(20);
 const restaurantTimeSchema = z.string().time();
 const restaurantMinimumValueSchema = z.string().min(1);
 const restaurantDeliveryChargeSchema = z.string().min(1);
+const restaurantImageSchema = z.string();
 
 export const createRestaurantRequestBodySchema = z.object({
   name: restaurantNameSchema,
@@ -15,6 +16,7 @@ export const createRestaurantRequestBodySchema = z.object({
   closingAt: restaurantTimeSchema,
   minimumValue: restaurantMinimumValueSchema,
   deliveryCharge: restaurantDeliveryChargeSchema,
+  image: restaurantImageSchema,
 });
 
 export const updateRestaurantFullyRequestBodySchema = z.object({
@@ -25,6 +27,7 @@ export const updateRestaurantFullyRequestBodySchema = z.object({
   closingAt: restaurantTimeSchema,
   minimumValue: restaurantMinimumValueSchema,
   deliveryCharge: restaurantDeliveryChargeSchema,
+  image: restaurantImageSchema,
 });
 
 export const updateRestaurantPartiallyRequestBodySchema = z.object({
@@ -35,6 +38,7 @@ export const updateRestaurantPartiallyRequestBodySchema = z.object({
   closingAt: restaurantTimeSchema.optional(),
   minimumValue: restaurantMinimumValueSchema.optional(),
   deliveryCharge: restaurantDeliveryChargeSchema.optional(),
+  image: restaurantImageSchema.optional(),
 });
 
 export const restaurantPathParamsSchema = z.object({

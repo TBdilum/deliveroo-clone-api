@@ -66,7 +66,7 @@ const createNewDish = async (req: Request, res: Response) => {
 
 const getADish = async (req: Request, res: Response) => {
   try {
-    const foundDish = await dishService.findById(Number(req.params.id));
+    const foundDish = await dishService.findById(req.params.id);
 
     if (!foundDish) {
       res.status(404).json({
@@ -100,13 +100,10 @@ const updateDishFully = async (req: Request, res: Response) => {
       return;
     }
 
-    const updatedDish = await dishService.findByIdAndUpdate(
-      Number(req.params.id),
-      {
-        ...req.body,
-        restaurant: foundCategory.restaurant,
-      },
-    );
+    const updatedDish = await dishService.findByIdAndUpdate(req.params.id, {
+      ...req.body,
+      restaurant: foundCategory.restaurant,
+    });
 
     if (!updatedDish) {
       res.status(404).json({
@@ -144,7 +141,7 @@ const updateDishPartially = async (req: Request, res: Response) => {
     }
 
     const patchedDish = await dishService.findAndUpdatePartially(
-      Number(req.params.id),
+      req.params.id,
       {
         ...req.body,
         ...(foundCategory
@@ -176,9 +173,7 @@ const updateDishPartially = async (req: Request, res: Response) => {
 
 const deleteDish = async (req: Request, res: Response) => {
   try {
-    const deletedDish = await dishService.findByIdAndDelete(
-      Number(req.params.id),
-    );
+    const deletedDish = await dishService.findByIdAndDelete(req.params.id);
 
     if (!deletedDish) {
       res.status(404).json({

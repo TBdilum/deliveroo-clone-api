@@ -8,19 +8,19 @@ const createNew = async (data: any) => {
   return await Dish.create(data);
 };
 
-const findById = async (id: number) => {
+const findById = async (id: string) => {
   return Dish.findById(id);
 };
 
-const findByIdAndUpdate = async (id: number, data: any) => {
+const findByIdAndUpdate = async (id: string, data: any) => {
   return Dish.findByIdAndUpdate(id, data, { new: true });
 };
 
-const findAndUpdatePartially = async (id: number, data: any) => {
+const findAndUpdatePartially = async (id: string, data: any) => {
   return Dish.findByIdAndUpdate(id, data, { new: true });
 };
 
-const findByIdAndDelete = async (id: number) => {
+const findByIdAndDelete = async (id: string) => {
   return Dish.findByIdAndDelete(id, { new: true });
 };
 

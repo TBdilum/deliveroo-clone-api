@@ -18,11 +18,11 @@ const findById = async (orgID: string) => {
   return Restaurant.findOne(input);
 };
 
-const findByIdAndUpdate = async (id: number, data: any) => {
+const findByIdAndUpdate = async (id: string, data: any) => {
   return Restaurant.findByIdAndUpdate(id, data, { new: true });
 };
 
-const findByIdAndDelete = async (id: number) => {
+const findByIdAndDelete = async (id: string) => {
   return Restaurant.findByIdAndDelete(id, { new: true });
 };
 

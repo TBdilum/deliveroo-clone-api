@@ -8,19 +8,19 @@ const createNew = async (data: any) => {
   return Category.create(data);
 };
 
-const findById = async (id: number) => {
+const findById = async (id: string) => {
   return Category.findById(id);
 };
 
-const findByIdAndUpdate = async (id: number, data: any) => {
+const findByIdAndUpdate = async (id: string, data: any) => {
   return Category.findByIdAndUpdate(id, data, { new: true });
 };
 
-const findAndUpdatePartially = async (id: number, data: any) => {
+const findAndUpdatePartially = async (id: string, data: any) => {
   return Category.findByIdAndUpdate(id, data, { new: true });
 };
 
-const findByIdAndDelete = async (id: number) => {
+const findByIdAndDelete = async (id: string) => {
   return Category.findByIdAndDelete(id, { new: true });
 };
 

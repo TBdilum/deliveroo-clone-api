@@ -8,6 +8,7 @@ export type IRestaurant = {
   orgId: string;
 
   name: string;
+  image: string;
   description?: string;
   tags: string[];
   openingAt: string;
@@ -22,6 +23,10 @@ const restaurantSchema = new Schema<IRestaurant>(
       type: String,
       required: true,
       trim: true,
+    },
+    image: {
+      type: String,
+      required: true,
     },
     description: {
       type: String,

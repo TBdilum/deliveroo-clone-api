@@ -73,7 +73,7 @@ const createNewCategory = async (req: Request, res: Response) => {
 
 const getCategory = async (req: Request, res: Response) => {
   try {
-    const foundCategory = await categoryService.findById(Number(req.params.id));
+    const foundCategory = await categoryService.findById(req.params.id);
 
     if (!foundCategory) {
       res.status(404).json({
@@ -111,7 +111,7 @@ const updateCategoryFully = async (req: Request, res: Response) => {
     }
 
     const updatedCategory = await categoryService.findByIdAndUpdate(
-      Number(req.params.id),
+      req.params.id,
       req.body,
     );
 
@@ -151,7 +151,7 @@ const updateCategoryPartially = async (req: Request, res: Response) => {
     }
 
     const patchedCategory = await categoryService.findAndUpdatePartially(
-      Number(req.params.id),
+      req.params.id,
       req.body,
     );
 
@@ -177,7 +177,7 @@ const updateCategoryPartially = async (req: Request, res: Response) => {
 const deleteCategory = async (req: Request, res: Response) => {
   try {
     const deletedCategory = await categoryService.findByIdAndDelete(
-      Number(req.params.id),
+      req.params.id,
     );
 
     if (!deletedCategory) {

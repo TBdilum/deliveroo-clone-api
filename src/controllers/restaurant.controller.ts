@@ -46,9 +46,7 @@ const createNewRestaurant = async (
 
 const getARestaurant = async (req: Request, res: Response) => {
   try {
-    const foundRestaurant = await restaurantService.findById(
-      String(req.params.orgID),
-    );
+    const foundRestaurant = await restaurantService.findById(req.params.orgID);
 
     if (!foundRestaurant) {
       res.status(404).json({
@@ -74,7 +72,7 @@ const getARestaurant = async (req: Request, res: Response) => {
 const updateARestaurantFully = async (req: Request, res: Response) => {
   try {
     const updatedRestaurant = await restaurantService.findByIdAndUpdate(
-      Number(req.params.id),
+      req.params.id,
       req.body,
     );
 
@@ -101,7 +99,7 @@ const updateARestaurantFully = async (req: Request, res: Response) => {
 const updateARestaurantPartially = async (req: Request, res: Response) => {
   try {
     const updatedRestaurant = await restaurantService.findByIdAndUpdate(
-      Number(req.params.id),
+      req.params.id,
       req.body,
     );
 
@@ -129,7 +127,7 @@ const updateARestaurantPartially = async (req: Request, res: Response) => {
 const deleteARestaurant = async (req: Request, res: Response) => {
   try {
     const deletedRestaurant = await restaurantService.findByIdAndDelete(
-      Number(req.params.id),
+      req.params.id,
     );
 
     if (!deletedRestaurant) {
