@@ -1,4 +1,3 @@
-import Users from "../models/users.model";
 import { usersService } from "../services/users.service";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
@@ -10,11 +9,11 @@ const SECRET_KEY = process.env.SECRET_KEY as string;
 
 const getAllUsers = async (_req: Request, res: Response) => {
   try {
-    const restaurantsArray = await usersService.findAll();
+    const UsersArray = await usersService.findAll();
 
     res.status(200).json({
       message: "OK",
-      data: restaurantsArray,
+      data: UsersArray,
     });
   } catch (error) {
     console.log(error, "error");
@@ -62,9 +61,10 @@ const createAnNewUser = async (req: Request, res: Response) => {
   try {
     const createdUser = await usersService.createNew(req.body);
 
+    const token = jwt.sign({ name: createdUser.name }, SECRET_KEY);
     res.status(201).json({
-      message: "Created",
-      data: createdUser,
+      message: "User Created",
+      token: token,
     });
   } catch (error) {
     console.log(error, "error");

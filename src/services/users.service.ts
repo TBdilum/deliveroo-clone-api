@@ -3,7 +3,7 @@ import { CreateModel } from "../types/mongoose.types";
 import Users, { IUsers } from "../models/users.model";
 
 const findAll = async () => {
-  return Restaurant.find();
+  return Users.find();
 };
 
 const createNew = async (data: CreateModel<IUsers>) => {
