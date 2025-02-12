@@ -1,5 +1,4 @@
 import { ObjectId, Schema, model } from "mongoose";
-import { UUID } from "mongodb";
 
 export type IRestaurant = {
   _id: ObjectId;

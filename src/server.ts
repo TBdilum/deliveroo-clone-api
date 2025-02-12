@@ -7,6 +7,7 @@ import commonRoutes from "./routes/common.routes";
 import restaurantRoutes from "./routes/restaurant.routes";
 import dishRoutes from "./routes/dish.routes";
 import categoryRoutes from "./routes/category.routes";
+import usersRoutes from "./routes/users.routes";
 import cors from "cors";
 
 dotenv.config();
@@ -14,13 +15,14 @@ dotenv.config();
 const app = express();
 const port = 3000;
 
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173" }));
 
 app.use(express.json());
 
 app.use("/restaurants", restaurantRoutes);
 app.use("/dishes", dishRoutes);
 app.use("/categories", categoryRoutes);
+app.use("/users", usersRoutes);
 
 app.use(commonRoutes);
 
