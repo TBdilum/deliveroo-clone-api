@@ -6,15 +6,19 @@ import {
   getAnUser,
   updateAnUserPartially,
   authenticateUser,
-  createAnNewUser,
+  createNewUser,
   updateAnUserFully,
 } from "../controllers/users.controller";
 
 router.get("/", getAllUsers);
 
-router.post("/login", authenticateUser);
+router.post("/login", async (req, res) => {
+  await authenticateUser(req, res);
+});
 
-router.post("/signup", createAnNewUser);
+router.post("/signup", async (req, res) => {
+  await createNewUser(req, res);
+});
 
 router.get("/:id", getAnUser);
 

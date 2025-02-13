@@ -29,47 +29,61 @@ const authenticateUser = async (req: Request, res: Response) => {
 
   try {
     const existingUser = await usersService.findById(name);
+
     if (existingUser) {
       if (existingUser.password === password) {
         const token = jwt.sign({ name: existingUser.name }, SECRET_KEY);
-        res.status(200).json({
+        return res.status(200).json({
           message: "Authenticated",
           token: token,
         });
       } else {
-        res.status(401).json({
+        return res.status(401).json({
           message: "Invalid Credentials",
         });
       }
     }
-    const createdUser = await usersService.createNew(req.body);
 
-    res.status(201).json({
-      message: "Created",
+    const createdUser = await usersService.createNew(req.body);
+    const token = jwt.sign({ name: createdUser.name }, SECRET_KEY);
+
+    return res.status(201).json({
+      message: "User Created",
       data: createdUser,
+      token: token,
     });
   } catch (error) {
-    console.log(error, "error");
+    console.error("Error:", error);
 
-    res.status(500).json({
+    return res.status(500).json({
       message: "Internal Server Error",
     });
   }
 };
 
-const createAnNewUser = async (req: Request, res: Response) => {
+const createNewUser = async (req: Request, res: Response) => {
+  const { name, password } = req.body;
+
   try {
-    const createdUser = await usersService.createNew(req.body);
+    const existingUser = await usersService.findById(name);
+
+    if (existingUser) {
+      return res.status(409).json({
+        message: "User Already Exists. Please Login",
+      });
+    }
+
+    const createdUser = await usersService.createNew({ name, password });
 
     const token = jwt.sign({ name: createdUser.name }, SECRET_KEY);
-    res.status(201).json({
+
+    return res.status(201).json({
       message: "User Created",
       token: token,
     });
   } catch (error) {
-    console.log(error, "error");
-
-    res.status(500).json({
+    console.error("Error creating user:", error);
+    return res.status(500).json({
       message: "Internal Server Error",
     });
   }
@@ -185,7 +199,7 @@ const deleteAnUser = async (req: Request, res: Response) => {
 export {
   getAllUsers,
   authenticateUser,
-  createAnNewUser,
+  createNewUser,
   getAnUser,
   updateAnUserPartially,
   updateAnUserFully,
