@@ -30,34 +30,24 @@ const authenticateUser = async (req: Request, res: Response) => {
   try {
     const existingUser = await usersService.findById(name);
 
-    if (existingUser) {
-      if (existingUser.password === password) {
-        const token = jwt.sign({ name: existingUser.name }, SECRET_KEY);
-        return res.status(200).json({
-          message: "Authenticated",
-          token: token,
-        });
-      } else {
-        return res.status(401).json({
-          message: "Invalid Credentials",
-        });
-      }
+    if (!existingUser) {
+      return res
+        .status(404)
+        .json({ message: "User not found.Please Create An Account" });
     }
 
-    const createdUser = await usersService.createNew(req.body);
-    const token = jwt.sign({ name: createdUser.name }, SECRET_KEY);
+    if (existingUser.password !== password) {
+      return res.status(401).json({ message: "Invalid Credentials" });
+    }
 
-    return res.status(201).json({
-      message: "User Created",
-      data: createdUser,
+    const token = jwt.sign({ name: existingUser.name }, SECRET_KEY);
+    return res.status(200).json({
+      message: "Authenticated",
       token: token,
     });
   } catch (error) {
     console.error("Error:", error);
-
-    return res.status(500).json({
-      message: "Internal Server Error",
-    });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
